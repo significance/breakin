@@ -1,0 +1,67 @@
+VERSION 4.002 !!!
+
+Breakin requirements: 286 12Mhz or higer
+		      VGA (Color recommended)
+       	              about 450Kb free Memory
+		      using 320x200x256
+		      Mouse		
+                      SOUNDBLASTER (via ct-voice.drv)
+
+about Breakin: Breakin is another Breakout game ... 
+               using 256 Colors , Soundblaster...
+               with mouse-control only.....
+	       Guess not bad ....	
+               Play and see ...
+	       
+USING SOUNDBLASTER : - Make sure ct-voice.drv is in the path 
+		     - start breakin with option /BLASTER AUTO
+	               for default detection via ct-voice.drv
+	               or /BLASTER PARAM <irq> <IO> or only /BLASTER.		      
+
+HINT: If you run Breakin for the first time, enter SPEED-option after
+      loading to adjust gamespeed.
+      There is a Autodetectfunktion running. For manuel Change:
+       1.) 'A' Turn off Autodetect
+       2.) +/- adjust delay until STERO SET is on. 
+     
+      Leave with ESC or 'Q'.  The delay will be saved , so you only have
+      to run it once.
+
+History
+
+3.0 Prerelease of the game
+
+3.1 First official release
+     - fixed bugs from 3.0
+     - first try with sound via pc-speaker      
+
+3.2 - more gfx included
+    - bugs fixed in two player mode
+    - returning stones
+    - all so far known bugs fixed   
+  
+3.201 - 2 more extra weapons
+      - faster loading routines
+      - faster gfx-routines
+      - Soundblastersound now in shareware version
+      - better story
+      - more gfx included
+      - more levels in sharewareversion 
+
+3.202 - changed main-menu GFX
+      - Viruscheck included
+      - 'C' Extraweapon changed , now doubles every Ball (max.10 Balls)
+      - Screen Shaking
+      - Better appearence of the 'enemys'
+      - Better star scrolling
+
+4.00  - Extraweapon LASER improved
+      - Extraweapon Invisible Ball improved
+      - First Time FM-MUSIC included
+        (Sorry for this bad track, but since none of us is a musician
+         ...., but we hope to change this soon) 
+
+4.002 - changes some Internal stuff
+      - variable Screensizeaccess with keys 1,2,3 in main-menue
+
+There maybe a problem with genius mousedriver 9.02 and using Soundblaster.

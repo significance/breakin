@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BREAKIN Web Player - How It Works! - Xray Productions '93</title>
+<style>
+/*
+ * Modern CSS that produces authentic mid-90s Netscape 2.0 visuals.
+ * No gradients, no shadows, no rounded corners, no flexbox.
+ * Beveled borders, solid bgcolor fills, system-ish fonts, table layouts.
+ */
+
+body {
+  background-color: #000020;
+  color: #00cc00;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Links: the classic unvisited=cyan, visited=purple, active=red */
+a:link    { color: #00cccc; }
+a:visited { color: #cc00cc; }
+a:active  { color: #ff0000; }
+
+/* 90s pages had no hover states. But we'll allow the underline to stay. */
+
+/* ---- CONSTRUCTION BARS ---- */
+/* Yellow/black diagonal stripe — the universal 90s "under construction" */
+.construction {
+  height: 10px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #cccc00 0px, #cccc00 10px,
+    #000000 10px, #000000 20px
+  );
+}
+
+/* ---- BEVELED BOXES ---- */
+/* The classic Windows 3.1 / Netscape outset look */
+.bevel-out {
+  border-top: 2px solid #888888;
+  border-left: 2px solid #888888;
+  border-bottom: 2px solid #333333;
+  border-right: 2px solid #333333;
+  padding: 4px 8px;
+}
+
+.bevel-in {
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+  padding: 4px 8px;
+}
+
+/* ---- SECTION HEADERS ---- */
+/* Navy blue bar with white text, beveled edges — pure 96 */
+.section-bar {
+  background-color: #000080;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 8px;
+  margin-top: 24px;
+  margin-bottom: 8px;
+  border-top: 2px solid #4444aa;
+  border-left: 2px solid #4444aa;
+  border-bottom: 2px solid #000040;
+  border-right: 2px solid #000040;
+}
+
+/* ---- CODE BLOCKS ---- */
+/* Black background, green text, sunken border — like a terminal window */
+pre.code {
+  background-color: #000000;
+  color: #00cc00;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  padding: 8px;
+  margin: 8px 16px;
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ---- DATA TABLES ---- */
+/* Thick beveled borders, colored header rows */
+table.data-table {
+  border-collapse: separate;
+  border-spacing: 2px;
+  margin: 8px 16px;
+}
+
+table.data-table th {
+  background-color: #000080;
+  color: #ffff00;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-top: 1px solid #4444aa;
+  border-left: 1px solid #4444aa;
+  border-bottom: 1px solid #000040;
+  border-right: 1px solid #000040;
+  text-align: left;
+}
+
+table.data-table td {
+  background-color: #0a0a20;
+  color: #cccccc;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-top: 1px solid #333333;
+  border-left: 1px solid #333333;
+  border-bottom: 1px solid #666666;
+  border-right: 1px solid #666666;
+}
+
+/* ---- NOTE BOXES ---- */
+/* Yellow on dark gold — the classic "tip" box */
+.note-box {
+  background-color: #333300;
+  color: #cccc00;
+  border: 2px solid #cccc00;
+  padding: 6px 10px;
+  margin: 10px 16px;
+  font-size: 13px;
+}
+
+/* ---- NAV BUTTONS ---- */
+/* Beveled grey buttons like Netscape toolbar */
+a.navbtn {
+  display: inline-block;
+  background-color: #666688;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 10px;
+  margin: 2px;
+  border-top: 2px solid #8888aa;
+  border-left: 2px solid #8888aa;
+  border-bottom: 2px solid #333355;
+  border-right: 2px solid #333355;
+}
+
+a.navbtn:active {
+  border-top: 2px solid #333355;
+  border-left: 2px solid #333355;
+  border-bottom: 2px solid #8888aa;
+  border-right: 2px solid #8888aa;
+}
+
+/* ---- VISITOR COUNTER ---- */
+.counter {
+  display: inline;
+  background-color: #000000;
+  color: #00cc00;
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  padding: 2px 8px;
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
+
+/* ---- BADGE BUTTONS ---- */
+.badge {
+  display: inline-block;
+  background-color: #cccccc;
+  color: #000080;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 8px;
+  margin: 3px;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
+
+/* ---- FILE LISTINGS ---- */
+pre.files {
+  background-color: #000000;
+  color: #00cc00;
+  font-size: 13px;
+  padding: 8px;
+  margin: 8px 16px;
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
+
+/* ---- HORIZONTAL RULES ---- */
+/* Netscape's default HR was a beveled grey line */
+hr.ns {
+  height: 2px;
+  border: none;
+  border-top: 1px solid #888888;
+  border-bottom: 1px solid #333333;
+  margin: 12px 0;
+}
+
+/* The fancier "rainbow line" some pages had via a 1x8 GIF —
+   we fake it with a tiny gradient since no external images */
+hr.rainbow {
+  height: 4px;
+  border: none;
+  background: #ff0000;
+  /* 90s monitors couldn't show smooth gradients anyway */
+}
+
+/* ---- MARQUEE ---- */
+/* Real <marquee> still works in browsers. We just style it. */
+marquee {
+  background-color: #000044;
+  color: #cccc00;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 3px 0;
+  border-top: 2px solid #333366;
+  border-left: 2px solid #333366;
+  border-bottom: 2px solid #000022;
+  border-right: 2px solid #000022;
+}
+
+/* ---- ASCII ART PRE ---- */
+pre.ascii {
+  color: #00cccc;
+  font-size: 12px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* ---- TOC ---- */
+.toc {
+  background-color: #0a0a30;
+  padding: 10px 16px;
+  display: inline-block;
+  text-align: left;
+  border-top: 2px solid #333366;
+  border-left: 2px solid #333366;
+  border-bottom: 2px solid #666699;
+  border-right: 2px solid #666699;
+}
+
+.toc ol { margin: 4px 0; padding-left: 24px; }
+.toc li { margin: 2px 0; }
+
+/* ---- PADDLE DIVIDER ---- */
+.paddle-div {
+  width: 120px;
+  height: 10px;
+  margin: 8px auto;
+  background-color: #4444cc;
+  border-top: 2px solid #8888ff;
+  border-left: 2px solid #8888ff;
+  border-bottom: 2px solid #222288;
+  border-right: 2px solid #222288;
+}
+
+/* ---- WEBRING ---- */
+.webring {
+  background-color: #000044;
+  color: #cccc00;
+  text-align: center;
+  padding: 6px;
+  border: 2px solid #444488;
+  display: inline-block;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================ -->
+<!-- CONSTRUCTION BAR                                              -->
+<!-- ============================================================ -->
+<div class="construction"></div>
+
+<br>
+
+<!-- ============================================================ -->
+<!-- TITLE                                                         -->
+<!-- ============================================================ -->
+<center>
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+
+<pre class="ascii">
+ ____  ____  ____  ____  _  _ ____  _  _
+(  _ \(  _ \(  __)(  _ \/ )( \(_  _)( \( )
+ ) _ ( )   / ) _)  )   /) __ ( _)(_  )  (
+(____/(_)\_)(____)(___\_)\_)(_/(____)(_)\_)
+</pre>
+
+<font size="+3" color="#cc00cc"><b>HOW IT WORKS</b></font>
+<br>
+<font size="-1" color="#cccc00">A Technical Document by Webmaster sig * Est. 1993</font>
+<br>
+<font size="-2" color="#888888">Best viewed with Netscape Navigator 2.0 at 640x480</font>
+
+<br><br>
+
+<marquee scrollamount="3" width="600">
+*** WELCOME TO THE BREAKIN TECHNICAL REFERENCE PAGE *** HOW DOES A 1993 DOS GAME RUN IN YOUR WEB BROWSER? *** READ ON TO FIND OUT! *** XRAY PRODUCTIONS MOENCHENGLADBACH GERMANY ***
+</marquee>
+
+<br>
+
+<hr class="ns" width="600" noshade>
+
+</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- NAVIGATION                                                    -->
+<!-- ============================================================ -->
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center" bgcolor="#000044" class="bevel-out">
+  <a href="index.html" class="navbtn">&lt;&lt; PLAY GAME</a>
+  <a href="#overview" class="navbtn">OVERVIEW</a>
+  <a href="#bundle" class="navbtn">BUNDLE</a>
+  <a href="#dosbox" class="navbtn">DOSBOX</a>
+  <a href="#wasm" class="navbtn">WASM</a>
+  <a href="#cabinet" class="navbtn">CABINET</a>
+  <a href="#io" class="navbtn">INPUT/AUDIO</a>
+  <a href="#files" class="navbtn">FILES</a>
+</td></tr>
+</table>
+
+<br>
+
+<!-- ============================================================ -->
+<!-- TABLE OF CONTENTS                                             -->
+<!-- ============================================================ -->
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+
+<div class="toc">
+<font color="#00cccc" size="+1"><b>== TABLE OF CONTENTS ==</b></font>
+<ol>
+  <li><a href="#overview">The Big Picture: DOS in a Browser?!</a></li>
+  <li><a href="#bundle">The .jsdos Bundle Format</a></li>
+  <li><a href="#dosbox">DOSBox Configuration</a></li>
+  <li><a href="#wasm">WebAssembly Emulation Engine</a></li>
+  <li><a href="#cabinet">The Arcade Cabinet (HTML/CSS)</a></li>
+  <li><a href="#io">Input &amp; Audio Pipeline</a></li>
+  <li><a href="#files">Complete File Reference</a></li>
+</ol>
+</div>
+
+</td></tr>
+</table>
+
+<br>
+<hr class="rainbow" width="600">
+<br>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 1: OVERVIEW                                           -->
+<!-- ============================================================ -->
+
+<a name="overview"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar">
+  [ SECTION 1 ] THE BIG PICTURE
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>How does a 1993 DOS game run inside your web browser?</b></font>
+</p>
+
+<p>
+BREAKIN.EXE was compiled for <font color="#cccc00">Intel 286</font> real-mode DOS.
+It expects a VGA card, a mouse driver, and optionally a Sound Blaster 16.
+None of these exist in your browser.
+</p>
+
+<p>
+The trick: we run a <font color="#00cccc">complete DOS emulator</font> compiled to
+<font color="#cc00cc">WebAssembly</font>, executing every single x86 instruction of the
+original game in a virtual machine inside your browser tab.
+</p>
+
+<br>
+
+<pre class="code">
+   YOUR BROWSER
+   +--------------------------------------------------+
+   |                                                  |
+   |  index.html                                      |
+   |  +--------------------------------------------+  |
+   |  |  js-dos.js  (orchestrator)                 |  |
+   |  |  +--------------------------------------+  |  |
+   |  |  |  emulators.js                        |  |  |
+   |  |  |  +--------------------------------+  |  |  |
+   |  |  |  | wdosbox.wasm                   |  |  |  |
+   |  |  |  | (DOSBox compiled to WASM)      |  |  |  |
+   |  |  |  |  +---------------------------+ |  |  |  |
+   |  |  |  |  |   VIRTUAL DOS MACHINE     | |  |  |  |
+   |  |  |  |  |                           | |  |  |  |
+   |  |  |  |  |   CPU: 286 @ 3000 cyc/ms  | |  |  |  |
+   |  |  |  |  |   GFX: SVGA_S3 (320x200)  | |  |  |  |
+   |  |  |  |  |   SND: Sound Blaster 16   | |  |  |  |
+   |  |  |  |  |   FS:  C:\ mounted        | |  |  |  |
+   |  |  |  |  |                           | |  |  |  |
+   |  |  |  |  |   &gt; BREAKIN.EXE           | |  |  |  |
+   |  |  |  |  +---------------------------+ |  |  |  |
+   |  |  |  +--------------------------------+  |  |  |
+   |  |  +--------------------------------------+  |  |
+   |  +--------------------------------------------+  |
+   |      ^              |               |            |
+   |   mouse/kb     canvas pixels    PCM audio        |
+   +--------------------------------------------------+
+</pre>
+
+<br>
+
+<p>The layers, from bottom to top:</p>
+
+<table class="data-table" width="100%">
+<tr>
+  <th>LAYER</th>
+  <th>TECHNOLOGY</th>
+  <th>WHAT IT DOES</th>
+</tr>
+<tr>
+  <td><font color="#cc4444">BREAKIN.EXE</font></td>
+  <td>x86 real-mode DOS</td>
+  <td>The original 93KB game binary from 1993</td>
+</tr>
+<tr>
+  <td><font color="#cc8844">wdosbox.wasm</font></td>
+  <td>WebAssembly (1.4MB)</td>
+  <td>DOSBox emulator compiled from C++ to WASM via Emscripten</td>
+</tr>
+<tr>
+  <td><font color="#cccc00">emulators.js</font></td>
+  <td>JavaScript</td>
+  <td>Loads WASM modules, manages file system, bridges JS&lt;-&gt;WASM</td>
+</tr>
+<tr>
+  <td><font color="#00cc00">js-dos.js</font></td>
+  <td>JavaScript + Redux</td>
+  <td>UI orchestrator: unpacks bundles, manages state, renders player</td>
+</tr>
+<tr>
+  <td><font color="#00cccc">index.html</font></td>
+  <td>HTML5 / CSS3</td>
+  <td>Arcade cabinet shell with CRT effects and controls</td>
+</tr>
+</table>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 2: THE .JSDOS BUNDLE                                  -->
+<!-- ============================================================ -->
+
+<a name="bundle"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar">
+  [ SECTION 2 ] THE .JSDOS BUNDLE
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>What is a .jsdos file?</b></font>
+</p>
+
+<p>
+It's a <font color="#cccc00">ZIP archive</font> with a special structure. Inside you'll find the
+original DOS game files <i>plus</i> a <font color="#00cccc">.jsdos/dosbox.conf</font> configuration
+file that tells the emulator how to set up the virtual machine.
+</p>
+
+<p>
+Our bundle <font color="#cc8844">breakanoid.jsdos</font> (172KB) contains <font color="#ffffff">34 files</font>:
+</p>
+
+<pre class="code">
+<font color="#666699"># You can unzip it like any ZIP file:</font>
+$ unzip breakanoid.jsdos -d breakin-files/
+
+<font color="#666699"># The magic is in the config:</font>
+breakin-files/
+  <font color="#cccc00">.jsdos/</font>
+    <font color="#cc8844">dosbox.conf</font>    <font color="#666699">&lt;-- emulator configuration</font>
+  <font color="#cccc00">BREAKIN.EXE</font>       <font color="#666699">&lt;-- the game! (93KB)</font>
+  BREAKIN.ANI       <font color="#666699">&lt;-- animation data (32KB)</font>
+  EXTRA.ANI         <font color="#666699">&lt;-- extra weapon animations</font>
+  ENEMY.SPR         <font color="#666699">&lt;-- enemy sprite sheet</font>
+  BLOCKS.BUP        <font color="#666699">&lt;-- brick graphics (32KB)</font>
+  *.PIC             <font color="#666699">&lt;-- 256-color title screens (65KB each)</font>
+  *.FNT             <font color="#666699">&lt;-- bitmap font data</font>
+  *.VOC             <font color="#666699">&lt;-- Sound Blaster voice samples</font>
+  TRACK2.MUS        <font color="#666699">&lt;-- FM synthesis music</font>
+  TESTLVL.*         <font color="#666699">&lt;-- level data + hit maps</font>
+  TOP100.ASG        <font color="#666699">&lt;-- high score table</font>
+</pre>
+
+<div class="note-box">
+<b>NOTE:</b> The .PIC files are raw 320x200 VGA framebuffer dumps --
+64,768 bytes each (320 * 200 = 64,000 pixels + 768 bytes of palette data).
+The palette is appended as 256 RGB triplets. This was standard practice
+in the DOS shareware era -- no PNG, no JPEG, just raw video memory!
+</div>
+
+<p>
+The JavaScript code that loads this bundle:
+</p>
+
+<pre class="code">
+<font color="#00cccc">Dos</font>(<font color="#cccc00">document</font>.getElementById(<font color="#cc8844">"dos"</font>), {
+  <font color="#cc00cc">url</font>: <font color="#cc8844">"breakanoid.jsdos"</font>,        <font color="#666699">// the ZIP bundle</font>
+  <font color="#cc00cc">autoStart</font>: <font color="#cccc00">true</font>,                <font color="#666699">// skip the "click to start" screen</font>
+  <font color="#cc00cc">pathPrefix</font>: <font color="#cc8844">"assets/emulators/"</font>, <font color="#666699">// where to find WASM files</font>
+  <font color="#cc00cc">onEvent</font>: (event, ci) =&gt; {
+    <font color="#cccc00">if</font> (event === <font color="#cc8844">"ci-ready"</font>) {
+      <font color="#666699">// emulator is running! BREAKIN.EXE has started.</font>
+      <font color="#666699">// ci = command interface for mute/unmute etc.</font>
+      dosCI = ci;
+      hideLoader();
+    }
+  }
+});
+</pre>
+
+<p>
+That's it. One function call. js-dos handles everything else: fetching the
+ZIP, extracting files into a virtual filesystem, parsing dosbox.conf,
+booting the emulated DOS, and running the EXE.
+</p>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 3: DOSBOX CONFIGURATION                               -->
+<!-- ============================================================ -->
+
+<a name="dosbox"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar">
+  [ SECTION 3 ] DOSBOX CONFIGURATION
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>The .jsdos/dosbox.conf file is the heart of the emulation setup.</b></font>
+</p>
+
+<p>
+It configures the virtual hardware to match what BREAKIN.EXE expects
+to find on a 1993 PC:
+</p>
+
+<pre class="code">
+<font color="#666699"># .jsdos/dosbox.conf</font>
+
+[sdl]
+fullscreen=<font color="#cccc00">false</font>
+autolock=<font color="#cccc00">true</font>          <font color="#666699"># auto-capture mouse on click</font>
+
+[dosbox]
+machine=<font color="#cc8844">svga_s3</font>       <font color="#666699"># emulate S3 Trio SVGA card</font>
+                       <font color="#666699"># (BREAKIN only needs VGA 320x200x256)</font>
+
+[cpu]
+core=<font color="#cccc00">auto</font>             <font color="#666699"># dynamic recompiler when available</font>
+cputype=<font color="#cccc00">auto</font>
+cycles=<font color="#cccc00">3000</font>           <font color="#666699"># ~3000 instructions per millisecond</font>
+                       <font color="#666699"># roughly equivalent to a 286 @ 12MHz</font>
+
+[sblaster]
+sbtype=<font color="#cc8844">sb16</font>           <font color="#666699"># Sound Blaster 16 emulation</font>
+sbbase=<font color="#cccc00">220</font>            <font color="#666699"># I/O base address (standard)</font>
+irq=<font color="#cccc00">7</font>                 <font color="#666699"># interrupt request line</font>
+dma=<font color="#cccc00">1</font>                 <font color="#666699"># 8-bit DMA channel</font>
+hdma=<font color="#cccc00">5</font>                <font color="#666699"># 16-bit DMA channel</font>
+
+[mixer]
+rate=<font color="#cccc00">44100</font>            <font color="#666699"># output sample rate in Hz</font>
+
+[autoexec]
+@echo off
+mount c .              <font color="#666699"># mount bundle root as C:\</font>
+c:
+BREAKIN.EXE            <font color="#666699"># launch the game!</font>
+</pre>
+
+<p>
+<font color="#cccc00">How the cycle count works:</font> DOSBox doesn't run at a real
+clock speed. Instead, it executes <font color="#00cccc">cycles</font> instructions per
+millisecond. 3000 cycles/ms gives roughly 286-12MHz performance --
+exactly what the original README specifies as the minimum requirement.
+</p>
+
+<div class="note-box">
+<b>HARDWARE EMULATED:</b>
+<br>CPU: Intel 286 equivalent (3000 cycles)
+<br>GPU: S3 Trio SVGA (VGA Mode 13h: 320x200, 256 colors)
+<br>Sound: Creative Sound Blaster 16 (IRQ 7, DMA 1, base 220h)
+<br>Mouse: PS/2 compatible (via browser mouse events)
+<br>Disk: Virtual C:\ drive (from ZIP contents)
+</div>
+
+<p>
+The <font color="#00cccc">[autoexec]</font> section works just like AUTOEXEC.BAT --
+it mounts the game files as drive C: and immediately runs BREAKIN.EXE.
+The user sees the game title screen within seconds of the page loading.
+</p>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 4: WEBASSEMBLY                                        -->
+<!-- ============================================================ -->
+
+<a name="wasm"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar">
+  [ SECTION 4 ] WEBASSEMBLY EMULATION ENGINE
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>The emulator is DOSBox, compiled from C++ to WebAssembly.</b></font>
+</p>
+
+<p>
+The <font color="#00cccc">assets/emulators/</font> directory contains the entire
+emulation runtime:
+</p>
+
+<table class="data-table" width="100%">
+<tr>
+  <th>FILE</th>
+  <th align="right">SIZE</th>
+  <th>PURPOSE</th>
+</tr>
+<tr>
+  <td><font color="#cc4444">wdosbox.wasm</font></td>
+  <td align="right">1.4 MB</td>
+  <td>Standard DOSBox -- the actual emulator binary</td>
+</tr>
+<tr>
+  <td><font color="#cc4444">wdosbox.js</font></td>
+  <td align="right">101 KB</td>
+  <td>Emscripten JS glue code for wdosbox.wasm</td>
+</tr>
+<tr>
+  <td><font color="#cc8844">wdosbox-x.wasm</font></td>
+  <td align="right">6.4 MB</td>
+  <td>Extended DOSBox-X (more hardware, not used here)</td>
+</tr>
+<tr>
+  <td><font color="#cc8844">wdosbox-x.js</font></td>
+  <td align="right">216 KB</td>
+  <td>Glue code for DOSBox-X variant</td>
+</tr>
+<tr>
+  <td><font color="#00cc00">wlibzip.wasm</font></td>
+  <td align="right">110 KB</td>
+  <td>libzip compiled to WASM -- unpacks .jsdos bundles</td>
+</tr>
+<tr>
+  <td><font color="#00cc00">wlibzip.js</font></td>
+  <td align="right">73 KB</td>
+  <td>Glue code for libzip</td>
+</tr>
+<tr>
+  <td><font color="#00cccc">emulators.js</font></td>
+  <td align="right">70 KB</td>
+  <td>Abstraction layer: loads correct WASM modules</td>
+</tr>
+</table>
+
+<br>
+
+<p>
+<font color="#cccc00">The compilation pipeline that created these files:</font>
+</p>
+
+<pre class="code">
+<font color="#666699"># DOSBox is written in C++ (~200K lines)</font>
+<font color="#666699"># Emscripten compiles it to WebAssembly:</font>
+
+DOSBox C++ source
+       |
+       v
+  [Emscripten compiler (emcc)]
+       |
+       +--&gt; <font color="#cccc00">wdosbox.wasm</font>   (compiled binary)
+       +--&gt; <font color="#cccc00">wdosbox.js</font>     (JS runtime/glue)
+
+<font color="#666699"># The .wasm file contains compiled machine code that runs</font>
+<font color="#666699"># at near-native speed in the browser's WASM VM.</font>
+<font color="#666699">#</font>
+<font color="#666699"># It handles:</font>
+<font color="#666699">#   - x86 CPU instruction decode + execute</font>
+<font color="#666699">#   - VGA framebuffer rendering</font>
+<font color="#666699">#   - Sound Blaster DSP + FM synthesis (OPL3)</font>
+<font color="#666699">#   - DMA transfers, IRQ handling, PIC, PIT timers</font>
+<font color="#666699">#   - FAT filesystem emulation</font>
+<font color="#666699">#   - PS/2 mouse + keyboard controller</font>
+</pre>
+
+<div class="note-box">
+<b>WHY WASM?</b> JavaScript is too slow for cycle-accurate CPU emulation.
+WebAssembly runs at near-native speed -- close to a C++ binary compiled
+for your actual CPU. The 1.4MB wdosbox.wasm replaces what would have been
+a 50MB+ native DOSBox install. The game thinks it's running on a real 286
+with a Sound Blaster card. It has no idea it's inside a browser.
+</div>
+
+<p>
+<font color="#cc00cc">The boot sequence:</font>
+</p>
+
+<pre class="code">
+<font color="#666699">// 1. js-dos.js fetches breakanoid.jsdos (ZIP)</font>
+<font color="#666699">// 2. wlibzip.wasm extracts the ZIP in-memory</font>
+<font color="#666699">// 3. dosbox.conf is parsed for hardware config</font>
+<font color="#666699">// 4. wdosbox.wasm is loaded + initialized</font>
+<font color="#666699">// 5. Game files are mounted as a virtual C:\ drive</font>
+<font color="#666699">// 6. [autoexec] runs: mount c . &amp;&amp; BREAKIN.EXE</font>
+<font color="#666699">// 7. VGA output is rendered to a &lt;canvas&gt; element</font>
+<font color="#666699">// 8. Audio samples are pushed to Web Audio API</font>
+<font color="#666699">// 9. Mouse/keyboard events are translated to DOS interrupts</font>
+</pre>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 5: THE ARCADE CABINET                                 -->
+<!-- ============================================================ -->
+
+<a name="cabinet"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar">
+  [ SECTION 5 ] THE ARCADE CABINET (HTML/CSS)
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>The page wraps the emulator in a CRT monitor + arcade cabinet shell.</b></font>
+</p>
+
+<p>The HTML structure:</p>
+
+<pre class="code">
+<font color="#00cccc">&lt;div class=</font><font color="#cc8844">"cabinet"</font><font color="#00cccc">&gt;</font>
+
+  <font color="#666699">&lt;!-- Neon-lit header with game title --&gt;</font>
+  <font color="#00cccc">&lt;div class=</font><font color="#cc8844">"marquee"</font><font color="#00cccc">&gt;</font>
+    <font color="#00cccc">&lt;h1&gt;</font>BREAKIN<font color="#00cccc">&lt;/h1&gt;</font>
+    <font color="#00cccc">&lt;div class=</font><font color="#cc8844">"subtitle"</font><font color="#00cccc">&gt;</font>XRAY PRODUCTIONS...<font color="#00cccc">&lt;/div&gt;</font>
+  <font color="#00cccc">&lt;/div&gt;</font>
+
+  <font color="#666699">&lt;!-- CRT monitor with bezel and effects --&gt;</font>
+  <font color="#00cccc">&lt;div class=</font><font color="#cc8844">"crt-bezel"</font><font color="#00cccc">&gt;</font>
+    <font color="#00cccc">&lt;div class=</font><font color="#cc8844">"screen-wrap"</font><font color="#00cccc">&gt;</font>
+      <font color="#00cccc">&lt;div id=</font><font color="#cc8844">"dos"</font><font color="#00cccc">&gt;&lt;/div&gt;</font>   <font color="#666699">&lt;!-- js-dos renders here --&gt;</font>
+    <font color="#00cccc">&lt;/div&gt;</font>
+  <font color="#00cccc">&lt;/div&gt;</font>
+
+  <font color="#666699">&lt;!-- Buttons: FULLSCREEN / DOCS / SOUND --&gt;</font>
+  <font color="#00cccc">&lt;div class=</font><font color="#cc8844">"controls"</font><font color="#00cccc">&gt;</font> ... <font color="#00cccc">&lt;/div&gt;</font>
+<font color="#00cccc">&lt;/div&gt;</font>
+</pre>
+
+<br>
+<p>
+<font color="#cccc00">The CRT effects are pure CSS -- no JavaScript, no canvas tricks:</font>
+</p>
+
+<p><font color="#cc00cc"><b>1. Scanlines</b></font> -- a repeating gradient overlay:</p>
+
+<pre class="code">
+<font color="#00cccc">.screen-wrap</font>::after {
+  content: <font color="#cc8844">''</font>;
+  position: <font color="#cccc00">absolute</font>;
+  inset: <font color="#cccc00">0</font>;
+  background: <font color="#cccc00">repeating-linear-gradient</font>(
+    <font color="#cccc00">0deg</font>,
+    <font color="#cc8844">transparent 0px</font>,
+    <font color="#cc8844">transparent 2px</font>,
+    <font color="#cc8844">rgba(0,0,0,0.08) 2px</font>,    <font color="#666699">/* dark line */</font>
+    <font color="#cc8844">rgba(0,0,0,0.08) 4px</font>
+  );
+  pointer-events: <font color="#cccc00">none</font>;     <font color="#666699">/* click-through! */</font>
+  z-index: <font color="#cccc00">50</font>;
+  mix-blend-mode: <font color="#cccc00">multiply</font>;
+}
+</pre>
+
+<p><font color="#cc00cc"><b>2. CRT Curvature Vignette</b></font> -- dark edges like a curved glass tube:</p>
+
+<pre class="code">
+<font color="#00cccc">.screen-wrap</font>::before {
+  background: <font color="#cccc00">radial-gradient</font>(
+    ellipse at center,
+    <font color="#cc8844">transparent 60%</font>,
+    <font color="#cc8844">rgba(0,0,0,0.35) 100%</font>
+  );
+}
+</pre>
+
+<p><font color="#cc00cc"><b>3. Phosphor Glow</b></font> -- subtle brightness flicker at 12.5fps:</p>
+
+<pre class="code">
+<font color="#cccc00">@keyframes</font> crt-glow {
+  from { filter: <font color="#cccc00">brightness(1)</font>; }
+  to   { filter: <font color="#cccc00">brightness(1.01)</font>; }
+}
+
+<font color="#00cccc">.screen-wrap</font> {
+  animation: crt-glow <font color="#cccc00">0.08s infinite alternate</font>;
+}
+</pre>
+
+<p><font color="#cc00cc"><b>4. Neon Text Glow</b></font> -- the marquee title uses text-shadow:</p>
+
+<pre class="code">
+<font color="#00cccc">.marquee h1</font> {
+  color: <font color="#cccc00">#00fff7</font>;
+  text-shadow: <font color="#cccc00">3px 3px 0 #ff00ea</font>; <font color="#666699">/* magenta offset */</font>
+  letter-spacing: <font color="#cccc00">12px</font>;
+  animation: <font color="#cccc00">marquee-flicker 4s infinite</font>;
+}
+</pre>
+
+<p><font color="#cc00cc"><b>5. Custom Crosshair Cursor</b></font> -- inline SVG data URI:</p>
+
+<pre class="code">
+<font color="#00cccc">body</font> {
+  cursor: <font color="#cccc00">url</font>(<font color="#cc8844">'data:image/svg+xml,&lt;svg ...&gt;
+    &lt;rect x="6" y="0" width="4" height="16"
+          fill="%2300fff7"/&gt;
+    &lt;rect x="0" y="6" width="16" height="4"
+          fill="%2300fff7"/&gt;
+  &lt;/svg&gt;'</font>) 8 8, crosshair;
+}
+</pre>
+
+<div class="note-box">
+<b>DESIGN NOTE:</b> The entire page uses just two fonts:
+<font color="#00cccc">Press Start 2P</font> (pixel font for headers/buttons) and
+<font color="#00cccc">VT323</font> (terminal font for body text). Both are served
+locally from the assets/ folder for offline use. The color scheme
+is neon-on-black: cyan (#00fff7), magenta (#ff00ea), yellow (#ffe600),
+green (#39ff14).
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 6: INPUT & AUDIO                                      -->
+<!-- ============================================================ -->
+
+<a name="io"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar">
+  [ SECTION 6 ] INPUT &amp; AUDIO PIPELINE
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>How does your mouse control a DOS game?</b></font>
+</p>
+
+<p>
+When you move your mouse over the game canvas, this chain fires:
+</p>
+
+<pre class="code">
+Browser mousemove event
+    |
+    v
+js-dos event handler
+    |
+    v
+Emscripten bridge (JS --&gt; WASM function call)
+    |
+    v
+DOSBox PS/2 mouse controller (in WASM)
+    |
+    v
+DOS mouse driver interrupt (INT 33h)
+    |
+    v
+BREAKIN.EXE reads mouse position --&gt; moves paddle
+</pre>
+
+<p>
+<font color="#cccc00">The game's original mouse code is unchanged.</font> It calls
+INT 33h (the DOS mouse interrupt) exactly as it did in 1993. DOSBox's
+emulated mouse controller translates browser events into the same
+hardware signals a real PS/2 mouse would generate.
+</p>
+
+<br>
+
+<p>
+<font color="#ffffff"><b>Audio: Sound Blaster emulation</b></font>
+</p>
+
+<p>BREAKIN uses two audio systems:</p>
+
+<table class="data-table" width="100%">
+<tr>
+  <th width="35%">SOUND TYPE</th>
+  <th>HOW IT WORKS</th>
+</tr>
+<tr>
+  <td><font color="#cc88cc">.VOC samples</font><br>
+  <font color="#888888" size="-1">(BONG.VOC, SMASH.VOC...)</font></td>
+  <td>Digitized sound effects played through Sound Blaster DSP
+  via DMA. The game writes PCM samples to the SB's DMA channel.
+  DOSBox intercepts these writes, mixes the audio, and feeds it
+  to the Web Audio API.</td>
+</tr>
+<tr>
+  <td><font color="#cc88cc">FM Music</font><br>
+  <font color="#888888" size="-1">(TRACK2.MUS)</font></td>
+  <td>Music played through the OPL3 FM synthesis chip on the
+  Sound Blaster. DOSBox emulates the Yamaha YMF262 chip
+  register-by-register, generating audio samples in WASM,
+  output via Web Audio API at 44.1kHz.</td>
+</tr>
+</table>
+
+<br>
+
+<p>The page provides a mute toggle:</p>
+
+<pre class="code">
+<font color="#cccc00">let</font> dosCI = <font color="#cccc00">null</font>;  <font color="#666699">// command interface from js-dos</font>
+<font color="#cccc00">let</font> muted = <font color="#cccc00">false</font>;
+
+<font color="#cccc00">function</font> <font color="#00cccc">toggleSound</font>() {
+  <font color="#cccc00">if</font> (dosCI) {
+    <font color="#cccc00">if</font> (muted) {
+      dosCI.<font color="#00cccc">unmute</font>();
+      muted = <font color="#cccc00">false</font>;
+    } <font color="#cccc00">else</font> {
+      dosCI.<font color="#00cccc">mute</font>();
+      muted = <font color="#cccc00">true</font>;
+    }
+  }
+}
+</pre>
+
+<p><font color="#cccc00">Keyboard shortcuts</font> are handled by a single listener:</p>
+
+<pre class="code">
+<font color="#cccc00">document</font>.addEventListener(<font color="#cc8844">"keydown"</font>, (e) =&gt; {
+  <font color="#666699">// ESC closes the docs overlay</font>
+  <font color="#cccc00">if</font> (e.key === <font color="#cc8844">"Escape"</font> &amp;&amp; docOverlayOpen) {
+    toggleDocs();
+    <font color="#cccc00">return</font>;
+  }
+  <font color="#666699">// F = fullscreen, H = help/docs</font>
+  <font color="#cccc00">if</font> (e.key === <font color="#cc8844">"f"</font>) goFullscreen();
+  <font color="#cccc00">if</font> (e.key === <font color="#cc8844">"h"</font>) toggleDocs();
+});
+</pre>
+
+<div class="note-box">
+<b>INPUT CAPTURE:</b> When you click on the game canvas, the browser locks
+the mouse pointer via the Pointer Lock API. This lets DOSBox receive raw
+mouse deltas (just like a real mouse driver) rather than absolute screen
+coordinates. Press ESC to release the capture.
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 7: FILE REFERENCE                                     -->
+<!-- ============================================================ -->
+
+<a name="files"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar">
+  [ SECTION 7 ] COMPLETE FILE REFERENCE
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>Everything needed to run offline:</b></font>
+</p>
+
+<pre class="files">
+<font color="#00cccc">breakanoid/</font>
+  <font color="#cccc00">index.html</font>            -- arcade cabinet player (16KB)
+  <font color="#cccc00">how-it-works.html</font>     -- this document
+  <font color="#00cc00">breakanoid.jsdos</font>      -- game bundle (172KB ZIP)
+  <font color="#00cccc">assets/</font>
+    <font color="#00cc00">js-dos.css</font>          -- emulator player styles (111KB)
+    <font color="#00cc00">js-dos.js</font>           -- emulator orchestrator (301KB)
+    <font color="#cccc00">fonts.css</font>           -- @font-face declarations
+    <font color="#00cc00">PressStart2P.ttf</font>    -- pixel arcade font (113KB)
+    <font color="#00cc00">VT323.ttf</font>           -- CRT terminal font (144KB)
+    <font color="#00cccc">emulators/</font>
+      <font color="#00cc00">emulators.js</font>      -- WASM loader abstraction (70KB)
+      <font color="#cc4444">wdosbox.wasm</font>      -- DOSBox emulator core (1.4MB)
+      <font color="#00cc00">wdosbox.js</font>        -- Emscripten glue (101KB)
+      <font color="#cc4444">wdosbox-x.wasm</font>    -- DOSBox-X extended (6.4MB)
+      <font color="#00cc00">wdosbox-x.js</font>      -- Emscripten glue (216KB)
+      <font color="#cc4444">wlibzip.wasm</font>      -- ZIP decompression (110KB)
+      <font color="#00cc00">wlibzip.js</font>        -- Emscripten glue (73KB)
+</pre>
+
+<br>
+
+<p>
+<font color="#ffffff"><b>Inside the .jsdos bundle (original 1993 game files):</b></font>
+</p>
+
+<pre class="files">
+<font color="#00cccc">.jsdos/</font>
+  <font color="#cccc00">dosbox.conf</font>           -- emulator hardware config
+<font color="#cc4444">BREAKIN.EXE</font>             -- main game binary (93KB)
+<font color="#00cc00">BREAKIN.ANI</font>             -- title + intro animations (32KB)
+<font color="#00cc00">EXTRA.ANI</font>               -- extra weapon animations (13KB)
+<font color="#00cc00">ENEMY.SPR</font>               -- enemy sprite sheet (11KB)
+<font color="#00cc00">BLOCKS.BUP</font>              -- brick tile graphics (32KB)
+<font color="#00cc00">TESTLVL.BCK</font>             -- level background tiles (20KB)
+<font color="#00cc00">TESTLVL</font>                 -- level layout data (5KB)
+<font color="#00cc00">TESTLVL.HIT</font>             -- brick hit-point map (2.5KB)
+<font color="#00cc00">TESTLVL.HNT</font>             -- hint data
+<font color="#00cc00">B3.PIC</font>                  -- 320x200 VGA screen (65KB)
+<font color="#00cc00">HIGHSC.PIC</font>              -- high score screen (65KB)
+<font color="#00cc00">JOECK.PIC</font>               -- credit screen (65KB)
+<font color="#00cc00">XSOFT2.PIC</font>              -- splash screen (65KB)
+<font color="#00cc00">GOLF.FNT</font>               -- bitmap font (9KB)
+<font color="#00cc00">MTV.FNT</font>                 -- large bitmap font (31KB)
+<font color="#00cc00">MTVSMALL.FNT</font>            -- small bitmap font (7KB)
+<font color="#cc88cc">AEAUHM.VOC</font>              -- "aaugh!" sound effect (4KB)
+<font color="#cc88cc">BONG.VOC</font>                -- ball bounce sound (1KB)
+<font color="#cc88cc">FETZ5.VOC</font>               -- brick smash sound (6KB)
+<font color="#cc88cc">SMASH.VOC</font>               -- destruction sound (343B)
+<font color="#cc88cc">TENNIS.VOC</font>              -- paddle hit sound (3KB)
+<font color="#cc88cc">TRACK2.MUS</font>              -- FM background music (1.2KB)
+<font color="#cc88cc">TRACK2.MUI</font>              -- music instrument data
+<font color="#00cc00">EXPLO4</font>                  -- explosion animation data (4KB)
+<font color="#00cc00">TOP100.ASG</font>              -- high score save file (2KB)
+<font color="#00cc00">BREAKIN.CFG</font>             -- game config (speed calibration)
+<font color="#cccc00">BREAKIN.DOC</font>             -- game documentation (4KB)
+<font color="#cccc00">BREAK40D.TXT</font>            -- German readme
+<font color="#cccc00">BREAK40E.TXT</font>            -- English readme
+<font color="#cccc00">REGIST.D</font>                -- German registration form
+<font color="#cccc00">REGIST.E</font>                -- English registration form
+<font color="#cccc00">FILE_ID.DIZ</font>             -- BBS file description
+<font color="#00cc00">SOUND.BAT</font>               -- Sound Blaster init batch
+</pre>
+
+<div class="note-box">
+<b>TOTAL DOWNLOAD:</b> ~9.5 MB with all emulator files cached locally.
+The original game itself is only 172KB -- the emulator that runs it is
+50x larger! But the entire thing loads in seconds on a modern connection
+and runs entirely offline once cached.
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<hr class="rainbow" width="600">
+<br>
+
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                        -->
+<!-- ============================================================ -->
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+
+<a href="index.html" class="navbtn">&lt;&lt; BACK TO GAME</a>
+
+<br><br>
+
+<!-- Visitor counter -->
+<font color="#888888" size="-1">You are visitor number </font>
+<span class="counter">001337</span>
+<font color="#888888" size="-1"> to this page</font>
+
+<br><br>
+
+<!-- 88x31 badges - the real 90s size -->
+<span class="badge">BEST VIEWED WITH<br>NETSCAPE NAV 2.0</span>
+<span class="badge" style="color: #006600;">MADE WITH<br>NOTEPAD.EXE</span>
+<span class="badge" style="color: #880000;">640 x 480<br>256 COLORS</span>
+<span class="badge">HTML 3.2<br>COMPATIBLE</span>
+
+<br><br>
+
+<!-- Webring -->
+<div class="webring" style="width: 380px;">
+<font color="#cccc00" size="-1"><b>*** DOS GAMES WEBRING ***</b></font><br>
+<font size="-2">
+[ <a href="#">&lt;&lt; PREV</a> |
+  <a href="#">RANDOM</a> |
+  <a href="#">LIST</a> |
+  <a href="#">NEXT &gt;&gt;</a> ]
+</font>
+</div>
+
+<br><br>
+
+<font color="#666666" size="-2">
+(c) 1993-2026 * Original game by Xray Productions
+(Joachim Herrmann &amp; Patrik Schnitzler)
+<br>
+Web player powered by js-dos * DOSBox emulator * WebAssembly
+<br>
+This page last updated: April 25, 2026
+<br><br>
+<font color="#00cccc">###</font>
+<font color="#cc00cc">###</font>
+<font color="#cccc00">###</font>
+<font color="#00cccc">###</font>
+<font color="#cc00cc">###</font>
+</font>
+
+<br><br>
+
+</td></tr>
+</table>
+
+<div class="construction"></div>
+
+</center>
+
+</body>
+</html>

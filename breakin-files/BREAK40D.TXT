@@ -1,0 +1,69 @@
+VERSION 4.002 !!!
+
+Breakin benîtigt: 286 12Mhz oder hîher
+                      VGA (Farbe emphohlen)
+                      ca. 500Kb freien Hauptspeicher
+                      Modus: 320x200x256 (echte 256 Farben)
+                      Maus
+                      SOUNDBLASTER (Åber ct-voice.drv)
+
+Åber  Breakin: Breakin ist das Breakoutspiel
+               in 256 Farben ...
+               nur mit Maus zu spielen ....
+               100 Lowscores ...
+               Zwei-Spieler Modus (nacheinander) ...
+               Schauen Sie selber ...
+       
+MIT SOUNDBLASTER : - ct-voice.drv mu· im Pfad liegen
+                   - starten Sie Breakin mit der Option /BLASTER AUTO
+                     (Bitte auf Gro·schreibung achten)
+                   - FÅr Standartwerte via ct-voice.drv
+                     /BLASTER PARAM <irq> <IO> oder nur /BLASTER.      
+
+HINWEIS : Bei Neuinstallation immer zuerst Menuepunkt 'SPEED' aufrufen.
+          Die Spielgeschwindigkeit wird automatisch an den Rechner angepasst.
+          Manuelle Anpassung : 1.) A - Autodetect aus
+ 	                       2.) +/- Verzoergerung regel bis Steroanlage an
+			       3.) ESC/Q Menueverlassen 		
+          Der eingestellte Wert wird gespeichert, d.h. es reicht den Wert
+          einmal einzustellen.
+History
+
+3.0 Prerelease des Spiels
+
+3.1 Erste Verîffentlichung
+     - Fehler von 3.0 beseitigt
+     - Erster Versuch mit Sound
+
+3.2 - Mehr Grafiken
+    - Fehler im Zweispielermodus
+    - Wiederkerhrende Steine
+    - Alle soweit bekannten Fehler beseitigt 
+  
+3.201 - 2 weitere Extrawaffen
+      - Schnellere Laderoutinen
+      - Schnellere Grafikroutinen
+      - Soundblastersound nun in der Sharewareversion
+      - Besserer Spielablauf
+      - Noch mehr Grafiken
+      - Weitere Levels in der Sharewareversion 
+    
+3.202 - Neues Titelbild
+      - Bildschirmwackeln
+      - Verbesserung einger Routinen
+      - Verbesserung der Darstellung der Feinde
+      - 'C' Extrawaffe geÑndert, verdoppelt nun jeden Ball (max. 10 Baelle)
+      - Virus-Check , öberpruft ob das Programm verÑndert wurde.
+
+4.00  - Laser verbessert
+      - Unsichtbaren Ball verbessert
+      - allgemeine Verbesserungen
+      - FM - Routinentest (wir haben leider keinen Musiker, wir bitten
+        deswegen den schlechten FM-Track zu entschuldigen, aber wir 
+        hoffen bald Abhilfe schaffen zu kînnen)
+
+4.02  - einige Interna verbessert
+      - Åber Tasten 1,2,3 laesst sich die Bildschirmgroesse verÑndern
+
+Es kînnte zu Problemen kommen,wenn sie Soundblaster den Genius 
+Maustreiber 9.02 und einen 286 benutzen ?!

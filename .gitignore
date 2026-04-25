@@ -2,3 +2,12 @@
 node_modules/
 package.json
 package-lock.json
+plan.md
+# temp screenshots and scripts
+screenshot-*.png
+nag-*.png
+inspect.mjs
+fix-nag.mjs
+capture-*.mjs
+compare-*.mjs
+screenshot-inspect.png

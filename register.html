@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BREAKIN - Registration / Shareware</title>
+<link rel="stylesheet" href="assets/dos-font.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  background-color: #00aaaa;
+  font-family: DOS, "Courier New", Courier, monospace;
+  font-size: 16px;
+  overflow: auto;
+}
+
+/* Teal dithered background — approximated with a subtle pattern */
+body {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 1px,
+      rgba(0,0,0,0.08) 1px, rgba(0,0,0,0.08) 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 1px,
+      rgba(0,0,0,0.08) 1px, rgba(0,0,0,0.08) 2px
+    );
+  background-color: #55bbbb;
+}
+
+/* Top title bar — "Thank you for playing Breakin" */
+.title-bar {
+  max-width: 640px;
+  margin: 20px auto 0;
+  text-align: center;
+}
+
+.title-box {
+  display: inline-block;
+  background-color: #000000;
+  color: #cccccc;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 6px 24px;
+  border: 3px solid #00cc00;
+  letter-spacing: 2px;
+}
+
+/* Grey bar under title */
+.grey-bar {
+  max-width: 560px;
+  margin: 0 auto;
+  height: 16px;
+  background-color: #888888;
+  border-top: 2px solid #aaaaaa;
+  border-left: 2px solid #aaaaaa;
+  border-bottom: 2px solid #444444;
+  border-right: 2px solid #444444;
+}
+
+/* Main blue box with red border */
+.main-box {
+  max-width: 640px;
+  margin: 12px auto 20px;
+  background-color: #0000cc;
+  padding: 24px 32px;
+  /* Double border: outer dark red, inner orange */
+  border: 4px solid #cc4400;
+  outline: 3px solid #884400;
+  outline-offset: 0px;
+  position: relative;
+}
+
+/* Inner border simulation */
+.main-box::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px; right: 3px; bottom: 3px;
+  border: 2px solid #ff8844;
+  pointer-events: none;
+}
+
+/* Text lines */
+.line {
+  text-align: center;
+  line-height: 1.6;
+  letter-spacing: 1px;
+}
+
+.yellow { color: #ffff00; }
+.white  { color: #ffffff; }
+.green  { color: #00cc00; }
+.orange { color: #ff8800; }
+.cyan   { color: #00cccc; }
+.red    { color: #cc0000; }
+
+/* Section spacing */
+.section {
+  margin-top: 20px;
+}
+
+/* The C:\> prompt area */
+.prompt-area {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 16px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  background-color: #000000;
+  min-height: 80px;
+}
+
+.prompt-area .cursor {
+  display: inline-block;
+  width: 10px;
+  height: 16px;
+  background-color: #ffffff;
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Back link */
+.back-link {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.back-link a {
+  color: #00cccc;
+  font-size: 14px;
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Title bar -->
+<div class="title-bar">
+  <div class="title-box">Thank you for playing Breakin</div>
+</div>
+
+<!-- Grey bar -->
+<div class="grey-bar"></div>
+
+<!-- Main blue registration box -->
+<div class="main-box">
+
+  <div class="line yellow" style="font-size: 18px;">
+    Please support shareware ! Get a registration for only $15
+  </div>
+  <div class="line white">
+    You'll get a leveldesigner and more than 50 amazing new levels !
+  </div>
+  <div class="line white" style="padding-left: 40px;">
+    For further information please press F1 in main menu.
+  </div>
+
+  <div class="section">
+    <div class="line green">
+      Bitte unterstützen sie Shareware. Lassen sie sich registrieren.
+    </div>
+    <div class="line white" style="padding-left: 20px;">
+      Nur 20,- DM (Inland) oder $15 (Ausland). Sie bekommen dann
+    </div>
+    <div class="line green">
+      z.B. einen Leveldesigner, mehr als 50 Levels, mehr Samples,etc.
+    </div>
+    <div class="line cyan" style="padding-left: 20px;">
+      Für weitere Information drücken Sie bitte F1 im Hauptmenue.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="line white" style="font-size: 17px;">
+      Joachim Herrmann, Lorenz-Goertz-Str. 23, 41238 Moenchengladbach
+    </div>
+    <div class="line green" style="font-size: 17px;">
+      Bank&nbsp;&nbsp;&nbsp;BLZ: 310 500 00&nbsp;&nbsp;Kontonr.: 5121207&nbsp;&nbsp;SSK Moenchengladbach
+    </div>
+    <div class="line cyan">
+      Patrik Schnitzler, Heintgesweg 57, 41239 Moenchengladbach
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="line orange" style="font-size: 18px;">
+      ---===&gt; Deutschland / Germany &lt;===---
+    </div>
+  </div>
+
+</div>
+
+<!-- C:\> prompt -->
+<div class="prompt-area">
+  C:\&gt;<span class="cursor"></span>
+</div>
+
+<!-- Navigation back -->
+<div class="back-link">
+  <a href="index.html">[ BACK TO GAME ]</a>
+  &nbsp;&nbsp;
+  <a href="how-it-works.html" target="_blank">[ HOW IT WORKS ]</a>
+</div>
+
+</body>
+</html>

@@ -4,502 +4,474 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BREAKIN - Xray Productions '93</title>
-<link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css">
+<link rel="stylesheet" href="assets/js-dos.css">
+<link rel="stylesheet" href="assets/dos-font.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --neon-cyan: #00fff7;
-    --neon-magenta: #ff00ea;
-    --neon-yellow: #ffe600;
-    --neon-green: #39ff14;
-    --crt-dark: #0a0a12;
-    --crt-darker: #050508;
-    --scanline-alpha: 0.08;
-    --cabinet-brown: #2a1a0a;
-    --cabinet-edge: #1a0f05;
-    --coin-slot: #111;
-  }
+html, body {
+  width: 100%; height: 100%;
+  background-color: #000000;
+  overflow: hidden;
+  font-family: DOS, "Courier New", Courier, monospace;
+  color: #00cc00;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+a:link { color: #00cccc; }
 
-  html, body {
-    width: 100%; height: 100%;
-    background: var(--crt-darker);
-    overflow: hidden;
-    font-family: 'VT323', monospace;
-    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect x="6" y="0" width="4" height="16" fill="%2300fff7"/><rect x="0" y="6" width="16" height="4" fill="%2300fff7"/></svg>') 8 8, crosshair;
-  }
+.cabinet {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center;
+  background-color: #000020;
+}
 
-  /* === ARCADE CABINET SHELL === */
-  .cabinet {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column;
-    align-items: center;
-    background:
-      radial-gradient(ellipse at 50% 30%, #1a1a2e 0%, #0a0a12 60%, #050508 100%);
-    position: relative;
-  }
+/* Header — slim navy bar */
+.header {
+  width: 100%;
+  background-color: #000080;
+  text-align: center;
+  padding: 2px 8px;
+  flex-shrink: 0;
+  border-bottom: 2px solid #000040;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 
-  /* Marquee / Header */
-  .marquee {
-    width: 100%;
-    padding: 10px 0 6px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-    background: linear-gradient(180deg, #0d0d1a 0%, transparent 100%);
-    flex-shrink: 0;
-  }
+.header pre.ascii {
+  font-family: DOS, "Courier New", monospace;
+  font-size: 7px;
+  line-height: 1.0;
+  color: #00cccc;
+  margin: 0;
+  margin-right: 8px;
+  white-space: pre;
+}
 
-  .marquee h1 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(28px, 5vw, 52px);
-    color: var(--neon-cyan);
-    text-shadow: 3px 3px 0 var(--neon-magenta);
-    letter-spacing: 12px;
-    animation: marquee-flicker 4s infinite;
-    user-select: none;
-  }
+.header span {
+  font-size: 11px;
+  color: #888888;
+  margin-right: 8px;
+}
 
-  .marquee .subtitle {
-    font-family: 'VT323', monospace;
-    font-size: clamp(11px, 1.6vw, 16px);
-    color: var(--neon-yellow);
-    text-shadow: 0 0 8px var(--neon-yellow);
-    margin-top: 2px;
-    letter-spacing: 3px;
-    opacity: 0.85;
-  }
+/* Monitor — sunken bevel, fills the viewport */
+.monitor {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  padding: 4px;
+  background-color: #0a0a1a;
+  position: relative;
+  display: flex;
+  border-top: 3px solid #222244;
+  border-left: 3px solid #222244;
+  border-bottom: 3px solid #666688;
+  border-right: 3px solid #666688;
+}
 
-  @keyframes marquee-flicker {
-    0%, 95%, 100% { opacity: 1; }
-    96% { opacity: 0.85; }
-    97% { opacity: 1; }
-    98% { opacity: 0.9; }
-  }
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000000;
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-bottom: 2px solid #333344;
+  border-right: 2px solid #333344;
+}
 
-  /* === CRT MONITOR BEZEL === */
-  .monitor-frame {
-    flex: 1;
-    width: 100%;
-    max-width: 960px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 16px;
-    min-height: 0;
-  }
+#dos {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  /* Hide the DOSBox boot — invisible until game is ready */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-  .crt-bezel {
-    width: 100%;
-    flex: 1;
-    min-height: 0;
-    background: #111118;
-    border-radius: 12px;
-    border: 3px solid #222;
-    box-shadow:
-      inset 0 0 40px rgba(0,0,0,0.8),
-      0 0 15px rgba(0,255,247,0.06),
-      0 4px 20px rgba(0,0,0,0.6);
-    padding: 8px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
+#dos.visible {
+  opacity: 1;
+}
 
-  .crt-bezel::before {
-    content: '';
-    position: absolute;
-    top: 3px; left: 3px; right: 3px; bottom: 3px;
-    border-radius: 9px;
-    border: 1px solid #333;
-    pointer-events: none;
-    z-index: 1;
-  }
+/* Scanlines */
+.screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 2px,
+    rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px
+  );
+  pointer-events: none;
+  z-index: 50;
+}
 
-  /* === THE SCREEN (js-dos container) === */
-  .screen-wrap {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    min-height: 0;
-    border-radius: 6px;
-    overflow: hidden;
-    background: #000;
-  }
+/* Loading overlay — covers DOSBox boot sequence */
+.loader {
+  position: absolute;
+  inset: 0;
+  background-color: #000000;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s;
+}
 
-  #dos {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 1;
-  }
+.loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
 
-  /* CRT scanlines overlay */
-  .screen-wrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 2px,
-      rgba(0,0,0,var(--scanline-alpha)) 2px,
-      rgba(0,0,0,var(--scanline-alpha)) 4px
-    );
-    pointer-events: none;
-    z-index: 50;
-    mix-blend-mode: multiply;
-  }
+.loader-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #00cc00;
+}
 
-  /* CRT curvature vignette */
-  .screen-wrap::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      ellipse at center,
-      transparent 60%,
-      rgba(0,0,0,0.35) 100%
-    );
-    pointer-events: none;
-    z-index: 51;
-  }
+@keyframes blink96 {
+  0%, 49% { visibility: visible; }
+  50%, 100% { visibility: hidden; }
+}
 
-  /* Phosphor flicker */
-  .screen-wrap {
-    animation: crt-glow 0.08s infinite alternate;
-  }
+.blink { animation: blink96 1s step-end infinite; }
 
-  @keyframes crt-glow {
-    from { filter: brightness(1); }
-    to   { filter: brightness(1.01); }
-  }
+.loader-bar {
+  width: 180px;
+  height: 10px;
+  margin-top: 10px;
+  background-color: #000000;
+  border-top: 1px solid #333333;
+  border-left: 1px solid #333333;
+  border-bottom: 1px solid #666666;
+  border-right: 1px solid #666666;
+  overflow: hidden;
+}
 
-  /* === CONTROL PANEL === */
-  .controls {
-    width: 100%;
-    max-width: 960px;
-    padding: 8px 16px 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-  }
+.loader-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #000080 0px, #000080 8px,
+    #0000cc 8px, #0000cc 16px
+  );
+  animation: march 0.4s linear infinite;
+}
 
-  .btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    padding: 8px 16px;
-    border: 2px solid var(--neon-cyan);
-    background: rgba(0,255,247,0.05);
-    color: var(--neon-cyan);
-    border-radius: 4px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.15s;
-    text-shadow: 0 0 6px var(--neon-cyan);
-    box-shadow: 0 0 8px rgba(0,255,247,0.15), inset 0 0 8px rgba(0,255,247,0.05);
-    user-select: none;
-  }
+@keyframes march {
+  from { transform: translateX(-16px); }
+  to   { transform: translateX(0); }
+}
 
-  .btn:hover, .btn:focus {
-    background: rgba(0,255,247,0.15);
-    box-shadow: 0 0 20px rgba(0,255,247,0.3), inset 0 0 12px rgba(0,255,247,0.1);
-    transform: translateY(-1px);
-  }
+/* Bottom bar */
+.bottom {
+  width: 100%;
+  padding: 2px 10px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #666666;
+}
 
-  .btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 0 4px rgba(0,255,247,0.2);
-  }
+/* Beveled buttons */
+.btn {
+  display: inline-block;
+  font-family: DOS, "Courier New", monospace;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  margin: 0 2px;
+  color: #cccccc;
+  background-color: #444466;
+  border-top: 2px solid #666688;
+  border-left: 2px solid #666688;
+  border-bottom: 2px solid #222244;
+  border-right: 2px solid #222244;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle;
+  line-height: 1.2;
+  height: 24px;
+}
 
-  .btn--magenta {
-    border-color: var(--neon-magenta);
-    color: var(--neon-magenta);
-    background: rgba(255,0,234,0.05);
-    text-shadow: 0 0 6px var(--neon-magenta);
-    box-shadow: 0 0 8px rgba(255,0,234,0.15), inset 0 0 8px rgba(255,0,234,0.05);
-  }
-  .btn--magenta:hover {
-    background: rgba(255,0,234,0.15);
-    box-shadow: 0 0 20px rgba(255,0,234,0.3), inset 0 0 12px rgba(255,0,234,0.1);
-  }
+button.btn {
+  /* Reset button-specific styling to match <a> */
+  -webkit-appearance: none;
+  appearance: none;
+}
 
-  .btn--yellow {
-    border-color: var(--neon-yellow);
-    color: var(--neon-yellow);
-    background: rgba(255,230,0,0.05);
-    text-shadow: 0 0 6px var(--neon-yellow);
-    box-shadow: 0 0 8px rgba(255,230,0,0.15), inset 0 0 8px rgba(255,230,0,0.05);
-  }
-  .btn--yellow:hover {
-    background: rgba(255,230,0,0.15);
-    box-shadow: 0 0 20px rgba(255,230,0,0.3), inset 0 0 12px rgba(255,230,0,0.1);
-  }
+.btn:active {
+  border-top-color: #222244;
+  border-left-color: #222244;
+  border-bottom-color: #666688;
+  border-right-color: #666688;
+}
 
-  .hotkey {
-    display: inline-block;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 3px;
-    padding: 2px 5px;
-    margin-left: 6px;
-    vertical-align: middle;
-    color: rgba(255,255,255,0.5);
-  }
+/* Doc overlay — Win 3.1 dialog */
+.doc-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
 
-  /* === STATUS BAR === */
-  .status-bar {
-    width: 100%;
-    max-width: 960px;
-    padding: 4px 20px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-  }
+.doc-overlay.active { display: flex; }
 
-  .status-bar .info {
-    font-size: clamp(12px, 1.5vw, 15px);
-    color: rgba(0,255,247,0.4);
-    letter-spacing: 1px;
-  }
+.doc-panel {
+  width: 90%;
+  max-width: 520px;
+  max-height: 80vh;
+  background-color: #0a0a20;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-top: 3px solid #666688;
+  border-left: 3px solid #666688;
+  border-bottom: 3px solid #222244;
+  border-right: 3px solid #222244;
+}
 
-  .status-bar .credits {
-    font-size: clamp(10px, 1.2vw, 13px);
-    color: rgba(255,230,0,0.35);
-    letter-spacing: 1px;
-  }
+.doc-titlebar {
+  padding: 2px 6px;
+  background-color: #000080;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .blink {
-    animation: blink-text 1.2s step-end infinite;
-  }
+.doc-titlebar h2 {
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0;
+}
 
-  @keyframes blink-text {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
+.doc-x {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+  background-color: #cccccc;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-bottom: 1px solid #888888;
+  border-right: 1px solid #888888;
+  padding: 0 4px;
+  cursor: pointer;
+  line-height: 1.2;
+}
 
-  /* === DOCUMENTATION MODAL === */
-  .doc-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(4px);
-  }
+.doc-body {
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 13px;
+  color: #00cc00;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  background-color: #000000;
+  margin: 3px;
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
 
-  .doc-overlay.active {
-    display: flex;
-  }
+.doc-body::-webkit-scrollbar { width: 14px; }
+.doc-body::-webkit-scrollbar-track { background-color: #aaaaaa; }
+.doc-body::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
 
-  .doc-panel {
-    width: 90%;
-    max-width: 640px;
-    max-height: 80vh;
-    background: #0a0a18;
-    border: 2px solid var(--neon-cyan);
-    border-radius: 8px;
-    box-shadow: 0 0 40px rgba(0,255,247,0.15);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
+.jsdos-player-container { background: transparent !important; }
 
-  .doc-header {
-    padding: 12px 16px;
-    background: rgba(0,255,247,0.08);
-    border-bottom: 1px solid rgba(0,255,247,0.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+/* Hide the left spacer that offsets for sidebar */
+#dos .w-12.flex-shrink-0 { display: none !important; }
+/* Remove the left offset on the background */
+#dos .background-image.left-12 { left: 0 !important; }
+/* Hide save/keyboard/fullscreen buttons, keep only slider */
+.save-button, .fullscreen-button { display: none !important; }
+.sidebar-button:not(.cycles) { display: none !important; }
+/* Hide entire js-dos sidebar */
+.sidebar { display: none !important; }
 
-  .doc-header h2 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
-    color: var(--neon-cyan);
-    text-shadow: 0 0 8px var(--neon-cyan);
-  }
+/* === EXIT / SHAREWARE NAG SCREEN === */
+/* Pixel-perfect reproduction of BREAKIN.EXE exit screen */
+.exit-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  /* DOS teal dither: checkerboard of #55aaaa and #aadddd */
+  background-color: #55aaaa;
+  background-image:
+    repeating-conic-gradient(#88cccc 0% 25%, #55aaaa 0% 50%) 0 0 / 4px 4px;
+  overflow-y: auto;
+  font-family: DOS, "Courier New", monospace;
+  font-size: 18px;
+  line-height: 1.7;
+}
 
-  .doc-close {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    color: var(--neon-magenta);
-    background: none;
-    border: 1px solid var(--neon-magenta);
-    border-radius: 3px;
-    padding: 4px 8px;
-    cursor: pointer;
-  }
+.exit-overlay.active { display: block; }
 
-  .doc-body {
-    padding: 16px;
-    overflow-y: auto;
-    font-family: 'VT323', monospace;
-    font-size: 17px;
-    color: var(--neon-green);
-    line-height: 1.5;
-    white-space: pre-wrap;
-    text-shadow: 0 0 3px rgba(57,255,20,0.3);
-  }
+/* "Thank you for playing Breakin" title */
+.exit-title-box {
+  display: block;
+  width: 580px;
+  margin: 16px auto 0;
+  text-align: center;
+  background-color: #0000aa;
+  color: #aaaaaa;
+  font-size: 20px;
+  padding: 6px 20px;
+  letter-spacing: 3px;
+  /* Double green border like the original */
+  border: 4px solid #00aa00;
+  outline: 2px solid #00dd00;
+  outline-offset: -6px;
+}
 
-  .doc-body::-webkit-scrollbar { width: 6px; }
-  .doc-body::-webkit-scrollbar-track { background: #0a0a18; }
-  .doc-body::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+/* Grey status bar under title */
+.exit-grey-bar {
+  width: 580px;
+  margin: 0 auto;
+  height: 20px;
+  background-color: #888888;
+}
 
-  /* === LOADING STATE === */
-  .loading-overlay {
-    position: absolute;
-    inset: 0;
-    background: #000;
-    z-index: 40;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.6s;
-  }
+/* Main blue box with triple border */
+.exit-blue-box {
+  width: 80%;
+  max-width: 900px;
+  margin: 10px auto 0;
+  background-color: #0000aa;
+  padding: 24px 32px;
+  position: relative;
+  /* Outer border: dark brown */
+  border: 6px solid #553300;
+  /* We use box-shadow for the middle salmon layer */
+  box-shadow: inset 0 0 0 4px #cc6644, inset 0 0 0 6px #ff8855;
+}
 
-  .loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
+/* Text in the blue box — centered like the original VGA screen */
+.exit-line {
+  text-align: center;
+  padding-left: 0;
+  line-height: 1.7;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
 
-  .loading-text {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
-    color: var(--neon-cyan);
-    text-shadow: 0 0 10px var(--neon-cyan);
-    animation: blink-text 1s step-end infinite;
-  }
+.exit-section { margin-top: 18px; }
 
-  .loading-bar {
-    width: 200px;
-    height: 4px;
-    background: #111;
-    border: 1px solid #333;
-    margin-top: 16px;
-    border-radius: 2px;
-    overflow: hidden;
-  }
+/* Black prompt area */
+.exit-prompt {
+  width: 80%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 16px 20px;
+  color: #aaaaaa;
+  font-size: 18px;
+  background-color: #000000;
+}
 
-  .loading-bar-fill {
-    height: 100%;
-    width: 30%;
-    background: var(--neon-cyan);
-    box-shadow: 0 0 8px var(--neon-cyan);
-    animation: loading-slide 1.5s ease-in-out infinite;
-  }
+.exit-prompt .cursor {
+  display: inline-block;
+  width: 10px; height: 18px;
+  background-color: #aaaaaa;
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s step-end infinite;
+}
 
-  @keyframes loading-slide {
-    0%   { transform: translateX(-100%); width: 30%; }
-    50%  { width: 60%; }
-    100% { transform: translateX(400%); width: 30%; }
-  }
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
 
-  /* === CORNER DECORATIONS === */
-  .corner-deco {
-    position: fixed;
-    width: 60px; height: 60px;
-    pointer-events: none;
-    z-index: 5;
-  }
+.exit-nav {
+  width: 80%;
+  max-width: 900px;
+  margin: 6px auto 20px;
+  text-align: center;
+}
 
-  .corner-deco--tl { top: 0; left: 0; border-top: 2px solid rgba(0,255,247,0.15); border-left: 2px solid rgba(0,255,247,0.15); }
-  .corner-deco--tr { top: 0; right: 0; border-top: 2px solid rgba(255,0,234,0.15); border-right: 2px solid rgba(255,0,234,0.15); }
-  .corner-deco--bl { bottom: 0; left: 0; border-bottom: 2px solid rgba(255,0,234,0.15); border-left: 2px solid rgba(255,0,234,0.15); }
-  .corner-deco--br { bottom: 0; right: 0; border-bottom: 2px solid rgba(0,255,247,0.15); border-right: 2px solid rgba(0,255,247,0.15); }
+.exit-nav a, .exit-nav button {
+  font-family: DOS, "Courier New", monospace;
+  font-size: 14px;
+  color: #00cccc;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 0 8px;
+}
 
-  /* Hide js-dos default UI chrome we don't want */
-  .jsdos-player-container { background: transparent !important; }
-
-  /* Power LED */
-  .power-led {
-    width: 8px; height: 8px;
-    background: var(--neon-green);
-    border-radius: 50%;
-    box-shadow: 0 0 6px var(--neon-green), 0 0 12px rgba(57,255,20,0.3);
-    animation: led-pulse 2s ease-in-out infinite;
-    position: absolute;
-    bottom: 6px;
-    right: 12px;
-    z-index: 5;
-  }
-
-  @keyframes led-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-  }
+.ey { color: #ffff00; }
+.ew { color: #ffffff; }
+.eg { color: #00cc00; }
+.eo { color: #ff8800; }
+.ec { color: #00cccc; }
 </style>
 </head>
-<body>
 
-<div class="corner-deco corner-deco--tl"></div>
-<div class="corner-deco corner-deco--tr"></div>
-<div class="corner-deco corner-deco--bl"></div>
-<div class="corner-deco corner-deco--br"></div>
+<body>
 
 <div class="cabinet">
 
-  <!-- MARQUEE -->
-  <div class="marquee">
-    <h1>BREAKIN</h1>
-    <div class="subtitle">XRAY PRODUCTIONS &bull; 1993 &bull; 256 COLOR BREAKOUT</div>
+  <div class="header">
+<pre class="ascii"> ____  ____  ____  ____  _  _ ____  _  _
+(  _ \(  _ \(  __)(  _ \/ )( \(_  _)( \( )
+ ) _ ( )   / ) _)  )   /) __ ( _)(_  )  (
+(____/(_)\_)(____)(___\_)\_)(_/(____)(_)\_)</pre>
+    <span>XRAY '93</span>
+    <button class="btn" onclick="goFullscreen()">FULL [F]</button>
+    <button class="btn" onclick="toggleDocs()">DOCS [H]</button>
+    <button class="btn" onclick="window.open('how-it-works.html','_blank')">HOW IT WORKS</button>
+    <button class="btn" id="btn-sound" onclick="toggleSound()">SND: ON</button>
+    <button class="btn" onclick="showExitScreen()">NAG</button>
   </div>
 
-  <!-- CRT MONITOR -->
-  <div class="monitor-frame">
-    <div class="crt-bezel">
-      <div class="screen-wrap">
-        <div id="dos"></div>
-        <div class="loading-overlay" id="loading">
-          <div class="loading-text">LOADING BREAKIN...</div>
-          <div class="loading-bar"><div class="loading-bar-fill"></div></div>
-        </div>
+  <div class="monitor">
+    <div class="screen">
+      <div id="dos"></div>
+      <div class="loader" id="loader">
+        <div class="loader-text">LOADING BREAKIN<span class="blink">_</span></div>
+        <div class="loader-bar"><div class="loader-bar-fill"></div></div>
       </div>
-      <div class="power-led"></div>
     </div>
   </div>
 
-  <!-- CONTROLS -->
-  <div class="controls">
-    <button class="btn" id="btn-fullscreen" onclick="goFullscreen()">
-      FULLSCREEN <span class="hotkey">F</span>
-    </button>
-    <button class="btn btn--magenta" id="btn-docs" onclick="toggleDocs()">
-      DOCS <span class="hotkey">H</span>
-    </button>
-    <button class="btn btn--yellow" id="btn-sound" onclick="toggleSound()">
-      SOUND: ON
-    </button>
+  <div class="bottom">
+    <span>MOUSE=PADDLE * CLICK=LAUNCH <span class="blink">_</span></span>
+    <span><a href="how-it-works.html">HOW IT WORKS</a> * <a href="https://github.com/significance/breakin">GITHUB</a> * <a href="https://etherscan.io/name-lookup-search?id=breakin.eth">BREAKIN.ETH</a> * V4.002</span>
   </div>
 
-  <!-- STATUS BAR -->
-  <div class="status-bar">
-    <div class="info">USE MOUSE TO CONTROL PADDLE <span class="blink">_</span></div>
-    <div class="credits">SHAREWARE &bull; V4.002</div>
-  </div>
 </div>
 
-<!-- DOCUMENTATION OVERLAY -->
+<!-- DOCS DIALOG -->
 <div class="doc-overlay" id="doc-overlay" onclick="if(event.target===this)toggleDocs()">
   <div class="doc-panel">
-    <div class="doc-header">
+    <div class="doc-titlebar">
       <h2>BREAKIN.DOC</h2>
-      <button class="doc-close" onclick="toggleDocs()">ESC</button>
+      <button class="doc-x" onclick="toggleDocs()">X</button>
     </div>
-    <div class="doc-body" id="doc-body">
+    <div class="doc-body">
 VERSION 4.002
 
 BREAKIN - BY XRAY PRODUCTIONS '93
@@ -509,127 +481,182 @@ Fabulous GFX and Sound. More than ten skillful levels.
 (Level designer included in registered version)
 Several extra weapons and 100 highscores.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-REQUIREMENTS:
-  ■ 286 12MHz or higher
-  ■ VGA (Color recommended)
-  ■ ~450KB free memory
-  ■ Mouse
-  ■ SOUNDBLASTER (optional)
+---------------------------------------
 
 CONTROLS:
-  ■ Mouse ─── Move paddle left/right
-  ■ Click ─── Launch ball / Fire laser
+  * Mouse --- Move paddle left/right
+  * Click --- Launch ball / Fire laser
 
 EXTRA WEAPONS:
-  ■ Enlarge paddle (stacks!)
-  ■ Sticky ball (catches ball)
-  ■ Laser cannon
-  ■ Triple ball (up to 10 balls!)
-  ■ Extra life
-  ■ Slow ball
-  ■ Power ball (smashes through)
-  ■ Barrier shield
-  ■ Gate to next level
-  ■ Invisible ball (tricky!)
+  * Enlarge paddle (stacks!)
+  * Sticky ball (catches ball)
+  * Laser cannon
+  * Triple ball (up to 10 balls!)
+  * Extra life / Slow ball
+  * Power ball (smashes through)
+  * Barrier shield
+  * Gate to next level
 
-TIPS:
-  ■ Hit SPEED in main menu to calibrate
-  ■ Keys 1/2/3 change screen size
-  ■ Supports 2 players (alternating)
-  ■ 100 highscore slots!
-  ■ Watch out for falling blocks!
+---------------------------------------
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WEB PLAYER:
+  * [F] --- Fullscreen
+  * [H] --- This help
+  * Click game to capture mouse
 
-WEB PLAYER HOTKEYS:
-  ■ [F] ─── Toggle fullscreen
-  ■ [H] ─── Toggle this help
-  ■ Mouse click on game to capture
+---------------------------------------
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Authors: Joachim Herrmann & Patrik Schnitzler
-         Mönchengladbach, Germany
-
-         "Bitte unterstützen Sie Shareware!"
+Authors: Joachim Herrmann &amp; Patrik Schnitzler
+         Moenchengladbach, Germany
     </div>
   </div>
 </div>
 
-<script src="https://v8.js-dos.com/latest/js-dos.js"></script>
+<!-- EXIT / SHAREWARE SCREEN -->
+<div class="exit-overlay" id="exit-overlay">
+  <div class="exit-title-box">Thank you for playing Breakin</div>
+  <div class="exit-grey-bar"></div>
+  <div class="exit-blue-box">
+    <div class="exit-line indent ey">Please support shareware ! Get a registration for only $15</div>
+    <div class="exit-line ew">You'll get a leveldesigner and more than 50 amazing new levels !</div>
+    <div class="exit-line indent ew">For further information please press F1 in main menu.</div>
+    <div class="exit-section">
+      <div class="exit-line eg">Bitte unterstützen sie Shareware. Lassen sie sich registrieren.</div>
+      <div class="exit-line indent ew">Nur 20,- DM (Inland) oder $15 (Ausland). Sie bekommen dann</div>
+      <div class="exit-line eg">z.B. einen Leveldesigner, mehr als 50 Levels, mehr Samples,etc.</div>
+      <div class="exit-line indent ec">Für weitere Information drücken Sie bitte F1 im Hauptmenue.</div>
+    </div>
+    <div class="exit-section">
+      <div class="exit-line ew">Joachim Herrmann, Lorenz-Goertz-Str. 23, 41238 Moenchengladbach</div>
+      <div class="exit-line eg">Bank&nbsp;&nbsp;&nbsp;BLZ: 310 500 00&nbsp;&nbsp;Kontonr.: 5121207&nbsp;&nbsp;SSK Moenchengladbach</div>
+      <div class="exit-line indent ec">Patrik Schnitzler, Heintgesweg 57, 41239 Moenchengladbach</div>
+    </div>
+    <div class="exit-section">
+      <div class="exit-line center eo">---===&gt; Deutschland / Germany &lt;===---</div>
+    </div>
+  </div>
+  <div class="exit-prompt">C:\&gt;<span class="cursor"></span></div>
+  <div class="exit-nav">
+    <button onclick="closeExitScreen()">[ PLAY AGAIN ]</button>
+    <a href="how-it-works.html" target="_blank">[ HOW IT WORKS ]</a>
+    <a href="https://github.com/significance/breakin" target="_blank">[ GITHUB ]</a>
+    <a href="https://etherscan.io/name-lookup-search?id=breakin.eth" target="_blank">[ BREAKIN.ETH ]</a>
+  </div>
+</div>
+
+<script src="assets/js-dos.js"></script>
 <script>
+  // Set mouse sensitivity before js-dos reads it (0.36 works well for BREAKIN)
+  if (!localStorage.getItem("mouse_sensitivity")) {
+    localStorage.setItem("mouse_sensitivity", "0.36");
+  }
+
   let dosCI = null;
   let muted = false;
 
-  // Initialize js-dos
+  // Pause when mouse pointer is unlocked, resume when locked
+  document.addEventListener("pointerlockchange", () => {
+    if (!dosCI) return;
+    if (!document.pointerLockElement) {
+      if (dosCI.pause) dosCI.pause();
+    } else {
+      if (dosCI.resume) dosCI.resume();
+    }
+  });
+
+  // Kill the js-dos "Click to capture mouse" overlay whenever it appears
+  function killOverlay() {
+    const dos = document.getElementById("dos");
+    if (!dos) return;
+    dos.querySelectorAll("div").forEach(el => {
+      if (el.querySelector("canvas")) return; // don't kill the canvas container
+      const t = el.textContent || "";
+      if (t.includes("Click to capture") || t.includes("sensitivity")) {
+        el.remove();
+      }
+    });
+  }
+
+  // Watch for js-dos re-adding the overlay
+  const obs = new MutationObserver(() => killOverlay());
+  obs.observe(document.getElementById("dos"), { childList: true, subtree: true });
+
   function hideLoader() {
-    const loader = document.getElementById("loading");
+    const loader = document.getElementById("loader");
+    const dos = document.getElementById("dos");
     if (loader && !loader.classList.contains("hidden")) {
+      // Reveal the game, hide the loader
+      dos.classList.add("visible");
       loader.classList.add("hidden");
     }
+  }
+
+  function showExitScreen() {
+    document.getElementById("exit-overlay").classList.add("active");
+  }
+
+  function closeExitScreen() {
+    document.getElementById("exit-overlay").classList.remove("active");
+    // Reload to restart the game
+    location.reload();
   }
 
   Dos(document.getElementById("dos"), {
     url: "breakanoid.jsdos",
     autoStart: true,
-    onEvent: (event, commandInterface) => {
-      console.log("js-dos event:", event);
-      if (commandInterface) {
-        dosCI = commandInterface;
-      }
+    pathPrefix: "assets/emulators/",
+    onEvent: (event, ci) => {
+      if (ci) dosCI = ci;
       if (event === "ci-ready" || event === "bnd-play") {
-        hideLoader();
-        console.log("BREAKIN loaded");
+        setTimeout(hideLoader, 300);
+        // Remove the mouse capture overlay
+        killOverlay();
+      }
+      // Show shareware screen when emulator exits
+      if (event === "wc-exit" || event === "ws-exit") {
+        showExitScreen();
       }
     }
   });
 
-  // Fallback: hide loader after 8 seconds regardless
-  setTimeout(hideLoader, 8000);
+  // Fallback
+  setTimeout(hideLoader, 10000);
 
-  // Fullscreen
   function goFullscreen() {
-    const el = document.querySelector(".screen-wrap");
+    const el = document.querySelector(".screen");
     if (el.requestFullscreen) el.requestFullscreen();
     else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
   }
 
-  // Toggle docs
   function toggleDocs() {
     document.getElementById("doc-overlay").classList.toggle("active");
   }
 
-  // Toggle sound
   function toggleSound() {
     const btn = document.getElementById("btn-sound");
     if (dosCI) {
-      if (muted) { dosCI.unmute(); muted = false; btn.textContent = "SOUND: ON"; }
-      else       { dosCI.mute();   muted = true;  btn.textContent = "SOUND: OFF"; }
+      if (muted) { dosCI.unmute(); muted = false; btn.textContent = "SND: ON"; }
+      else       { dosCI.mute();   muted = true;  btn.textContent = "SND: OFF"; }
     }
   }
 
-  // Keyboard shortcuts
+  // Intercept ESC before DOSBox sees it — use capture phase
   document.addEventListener("keydown", (e) => {
-    // Don't intercept if doc overlay is open and pressing escape
-    if (e.key === "Escape" && document.getElementById("doc-overlay").classList.contains("active")) {
-      toggleDocs();
+    if (e.key === "Escape") {
+      e.preventDefault();
+      e.stopPropagation();
+      // If docs open, close them; otherwise exit fullscreen
+      if (document.getElementById("doc-overlay").classList.contains("active")) {
+        toggleDocs();
+      } else if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
       return;
     }
-
-    // Only handle our hotkeys when not typing in an input
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-
-    if (e.key === "f" || e.key === "F") {
-      e.preventDefault();
-      goFullscreen();
-    }
-    if (e.key === "h" || e.key === "H") {
-      e.preventDefault();
-      toggleDocs();
-    }
-  });
+    if (e.key === "f" || e.key === "F") { e.preventDefault(); goFullscreen(); }
+    if (e.key === "h" || e.key === "H") { e.preventDefault(); toggleDocs(); }
+  }, true);  // true = capture phase, runs before js-dos
 </script>
 
 </body>

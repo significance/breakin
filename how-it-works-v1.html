@@ -1,0 +1,1230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>BREAKIN Web Player - How It Works! - Xray Productions '93</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style>
+/*
+ * 1990s pages didn't really use external CSS files.
+ * Everything was inline or in a single <style> block.
+ * We keep it authentic: no flexbox, no grid, no variables.
+ */
+
+body {
+  background-color: #000020;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, #ffffff44, transparent),
+    radial-gradient(1px 1px at 25% 35%, #ffffff33, transparent),
+    radial-gradient(1px 1px at 40% 80%, #ffffff22, transparent),
+    radial-gradient(1px 1px at 55% 10%, #ffffff44, transparent),
+    radial-gradient(1px 1px at 70% 60%, #ffffff33, transparent),
+    radial-gradient(1px 1px at 85% 45%, #ffffff22, transparent),
+    radial-gradient(1px 1px at 95% 90%, #ffffff44, transparent),
+    radial-gradient(1px 1px at 5%  70%, #ffffff33, transparent),
+    radial-gradient(1px 1px at 30% 55%, #ffffff22, transparent),
+    radial-gradient(1px 1px at 60% 30%, #ffffff44, transparent),
+    radial-gradient(1px 1px at 15% 92%, #ffffff33, transparent),
+    radial-gradient(1px 1px at 80% 20%, #ffffff22, transparent),
+    radial-gradient(1px 1px at 48% 48%, #ffffff55, transparent),
+    radial-gradient(1px 1px at 33% 5%,  #ffffff33, transparent),
+    radial-gradient(1px 1px at 72% 78%, #ffffff44, transparent),
+    radial-gradient(1px 1px at 90% 5%,  #ffffff22, transparent),
+    radial-gradient(1px 1px at 20% 65%, #ffffff55, transparent),
+    radial-gradient(1px 1px at 50% 95%, #ffffff33, transparent),
+    radial-gradient(1px 1px at 8%  40%, #ffffff44, transparent),
+    radial-gradient(1px 1px at 62% 52%, #ffffff22, transparent);
+  color: #00ff00;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+a:link    { color: #00ffff; }
+a:visited { color: #ff00ff; }
+a:hover   { color: #ffff00; background-color: #333366; }
+a:active  { color: #ff0000; }
+
+/* Authentic 90s blink */
+@keyframes blink90s {
+  0%, 49% { visibility: visible; }
+  50%, 100% { visibility: hidden; }
+}
+
+.blink {
+  animation: blink90s 1s step-end infinite;
+}
+
+/* Scrolling marquee simulation */
+@keyframes scroll-left {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.marquee-scroll {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-scroll span {
+  display: inline-block;
+  animation: scroll-left 15s linear infinite;
+}
+
+/* Horizontal rainbow rule */
+.rainbow-hr {
+  height: 3px;
+  border: none;
+  background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000);
+}
+
+/* Brick pattern divider */
+.brick-hr {
+  height: 16px;
+  border: none;
+  background:
+    linear-gradient(90deg, #cc3300 0px, #cc3300 30px, #331100 30px, #331100 32px) 0 0 / 32px 8px,
+    linear-gradient(90deg, #cc3300 0px, #cc3300 30px, #331100 30px, #331100 32px) 16px 8px / 32px 8px;
+  background-color: #331100;
+}
+
+/* Code blocks - 90s PRE style */
+pre.code {
+  background-color: #0a0a2a;
+  border: 2px inset #444488;
+  color: #33ff33;
+  padding: 10px;
+  font-size: 13px;
+  overflow-x: auto;
+  margin: 8px 20px;
+}
+
+pre.code .comment  { color: #666699; }
+pre.code .keyword  { color: #ffff00; }
+pre.code .string   { color: #ff8844; }
+pre.code .tag      { color: #00ffff; }
+pre.code .attr     { color: #ff00ff; }
+pre.code .value    { color: #ffff00; }
+
+/* The paddle */
+.paddle {
+  display: block;
+  margin: 4px auto;
+  width: 120px;
+  height: 12px;
+  background: linear-gradient(180deg, #8888ff, #4444cc, #2222aa);
+  border: 1px solid #aaaaff;
+  border-radius: 3px;
+}
+
+/* Ball */
+.ball {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle at 3px 3px, #ffffff, #cccccc, #888888);
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+/* Section header boxes */
+.section-hdr {
+  background-color: #000080;
+  border: 2px outset #4444aa;
+  padding: 4px 12px;
+  margin: 20px 0 10px 0;
+}
+
+.section-hdr font {
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* Under construction bar */
+@keyframes construction-flash {
+  0%, 49%  { background-color: #ffff00; color: #000000; }
+  50%, 100% { background-color: #000000; color: #ffff00; }
+}
+
+.construction-stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffff00,
+    #ffff00 10px,
+    #000000 10px,
+    #000000 20px
+  );
+  height: 8px;
+}
+
+/* Visitor counter style */
+.counter {
+  display: inline-block;
+  background: #000000;
+  border: 2px inset #666666;
+  padding: 2px 6px;
+  font-family: "Courier New", monospace;
+  color: #00ff00;
+  font-size: 16px;
+  letter-spacing: 3px;
+}
+
+/* Netscape badge */
+.badge {
+  display: inline-block;
+  border: 2px outset #888888;
+  background: #cccccc;
+  color: #000000;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: bold;
+  margin: 2px;
+}
+
+/* Architecture diagram - ASCII style */
+pre.diagram {
+  background-color: #000010;
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  padding: 12px;
+  font-size: 12px;
+  display: inline-block;
+  text-align: left;
+}
+
+/* Glow text for headers */
+.glow-cyan {
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+.glow-magenta {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+.glow-yellow {
+  color: #ffff00;
+  text-shadow: 0 0 8px #ffff00;
+}
+
+/* Table cells - 90s inset/outset look */
+td.info-cell {
+  background-color: #0a0a2e;
+  border: 2px inset #444488;
+  padding: 8px;
+  vertical-align: top;
+}
+
+td.header-cell {
+  background-color: #000080;
+  border: 2px outset #4444aa;
+  padding: 4px 8px;
+  text-align: center;
+}
+
+/* Animated construction icon */
+@keyframes spin-gear {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.gear {
+  display: inline-block;
+  animation: spin-gear 3s linear infinite;
+}
+
+/* Nav buttons - chunky 90s style */
+a.nav-btn {
+  display: inline-block;
+  background-color: #444488;
+  border: 3px outset #8888cc;
+  color: #ffffff;
+  padding: 4px 14px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
+  margin: 3px;
+}
+
+a.nav-btn:hover {
+  background-color: #6666aa;
+  color: #ffff00;
+}
+
+a.nav-btn:active {
+  border-style: inset;
+}
+
+/* File listing */
+.file-list {
+  background-color: #0a0a1a;
+  border: 2px inset #444488;
+  padding: 8px 12px;
+  margin: 8px 20px;
+  font-size: 13px;
+}
+
+.file-list .dir  { color: #00ffff; }
+.file-list .exe  { color: #ff4444; }
+.file-list .data { color: #00ff00; }
+.file-list .doc  { color: #ffff00; }
+.file-list .snd  { color: #ff88ff; }
+
+/* Tooltip style note boxes */
+.note-box {
+  background-color: #2a2a00;
+  border: 2px solid #ffff00;
+  padding: 8px 12px;
+  margin: 10px 20px;
+  color: #ffff00;
+  font-size: 13px;
+}
+
+.note-box b { color: #ff8800; }
+
+/* TOC */
+.toc {
+  background-color: #0a0a3a;
+  border: 2px ridge #4444aa;
+  padding: 12px 20px;
+  display: inline-block;
+  text-align: left;
+}
+
+.toc a { font-size: 13px; }
+.toc li { margin: 3px 0; list-style-type: square; }
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================ -->
+<!--  TOP CONSTRUCTION STRIPE                                      -->
+<!-- ============================================================ -->
+<div class="construction-stripe"></div>
+
+<!-- ============================================================ -->
+<!--  MAIN TITLE AREA                                              -->
+<!-- ============================================================ -->
+<br>
+<center>
+
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td align="center">
+
+<pre style="color: #00ffff; font-size: 11px; line-height: 1.1; text-shadow: 0 0 8px #00ffff;">
+ ____  ____  ____  ____  _  _ ____  _  _
+(  _ \(  _ \(  __)(  _ \/ )( \(_  _)( \( )
+ ) _ ( )   / ) _)  )   /) __ ( _)(_  )  (
+(____/(_)\_)(____)(___\_)\_)(_/(____)(_)\_)
+</pre>
+
+<font size="6" color="#ff00ff"><b>HOW IT WORKS</b></font>
+<br>
+<font size="2" color="#ffff00">A Technical Document by Webmaster sig &bull; Est. 1993</font>
+<br>
+<font size="1" color="#888888">Best viewed with Netscape Navigator 2.0 at 640x480</font>
+
+<br><br>
+
+<!-- Scrolling marquee -->
+<table border="2" cellpadding="2" cellspacing="0" bgcolor="#000040" bordercolor="#0000aa" width="600">
+<tr><td>
+<div class="marquee-scroll">
+<span><font color="#ffff00" size="2">
+&star; &star; &star; WELCOME TO THE BREAKIN TECHNICAL REFERENCE PAGE &star;&star;&star; HOW DOES A 1993 DOS GAME RUN IN YOUR WEB BROWSER? &star;&star;&star; READ ON TO FIND OUT! &star;&star;&star; XRAY PRODUCTIONS MÖNCHENGLADBACH GERMANY &star;&star;&star;
+</font></span>
+</div>
+</td></tr>
+</table>
+
+<br>
+
+<hr class="rainbow-hr" width="600">
+
+</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!--  NAVIGATION BAR                                               -->
+<!-- ============================================================ -->
+
+<table border="0" cellpadding="2" cellspacing="0" width="640">
+<tr><td align="center" bgcolor="#000040" style="border: 2px outset #4444aa; padding: 6px;">
+  <a href="index.html" class="nav-btn">&laquo; PLAY GAME</a>
+  <a href="#overview" class="nav-btn">OVERVIEW</a>
+  <a href="#bundle" class="nav-btn">BUNDLE</a>
+  <a href="#dosbox" class="nav-btn">DOSBOX</a>
+  <a href="#wasm" class="nav-btn">WASM</a>
+  <a href="#cabinet" class="nav-btn">CABINET</a>
+  <a href="#io" class="nav-btn">INPUT/AUDIO</a>
+  <a href="#files" class="nav-btn">FILES</a>
+</td></tr>
+</table>
+
+<br>
+
+<!-- ============================================================ -->
+<!--  TABLE OF CONTENTS                                            -->
+<!-- ============================================================ -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td align="center">
+
+<div class="toc">
+<font color="#00ffff" size="3"><b>== TABLE OF CONTENTS ==</b></font>
+<ol>
+  <li><a href="#overview">The Big Picture: DOS in a Browser?!</a></li>
+  <li><a href="#bundle">The .jsdos Bundle Format</a></li>
+  <li><a href="#dosbox">DOSBox Configuration</a></li>
+  <li><a href="#wasm">WebAssembly Emulation Engine</a></li>
+  <li><a href="#cabinet">The Arcade Cabinet (HTML/CSS)</a></li>
+  <li><a href="#io">Input &amp; Audio Pipeline</a></li>
+  <li><a href="#files">Complete File Reference</a></li>
+</ol>
+</div>
+
+</td></tr>
+</table>
+
+<br>
+<hr class="brick-hr" width="600">
+<br>
+
+<!-- ============================================================ -->
+<!--  SECTION 1: OVERVIEW                                          -->
+<!-- ============================================================ -->
+
+<a name="overview"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td>
+
+<div class="section-hdr">
+  <font size="4" color="#00ffff">&#9612; SECTION 1: THE BIG PICTURE</font>
+</div>
+
+<blockquote>
+<font color="#00ff00" size="3">
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>How does a 1993 DOS game run inside your web browser?</b></font>
+</p>
+
+<p>
+BREAKIN.EXE was compiled for <font color="#ffff00">Intel 286</font> real-mode DOS. It expects a VGA card, a mouse driver, and optionally a Sound Blaster 16. None of these exist in your browser.
+</p>
+
+<p>
+The trick: we run a <font color="#00ffff">complete DOS emulator</font> compiled to <font color="#ff00ff">WebAssembly</font>, executing every single x86 instruction of the original game in a virtual machine inside your browser tab.
+</p>
+
+<br>
+
+<center>
+<pre class="diagram">
+   YOUR BROWSER
+   +--------------------------------------------------+
+   |                                                  |
+   |  index.html                                      |
+   |  +--------------------------------------------+  |
+   |  |  js-dos.js  (orchestrator)                 |  |
+   |  |  +--------------------------------------+  |  |
+   |  |  |  emulators.js                        |  |  |
+   |  |  |  +--------------------------------+  |  |  |
+   |  |  |  | wdosbox.wasm                   |  |  |  |
+   |  |  |  | (DOSBox compiled to WASM)      |  |  |  |
+   |  |  |  |  +---------------------------+ |  |  |  |
+   |  |  |  |  |   VIRTUAL DOS MACHINE     | |  |  |  |
+   |  |  |  |  |                           | |  |  |  |
+   |  |  |  |  |   CPU: 286 @ 3000 cyc/ms  | |  |  |  |
+   |  |  |  |  |   GFX: SVGA_S3 (320x200)  | |  |  |  |
+   |  |  |  |  |   SND: Sound Blaster 16   | |  |  |  |
+   |  |  |  |  |   FS:  C:\ mounted        | |  |  |  |
+   |  |  |  |  |                           | |  |  |  |
+   |  |  |  |  |   &gt; BREAKIN.EXE           | |  |  |  |
+   |  |  |  |  +---------------------------+ |  |  |  |
+   |  |  |  +--------------------------------+  |  |  |
+   |  |  +--------------------------------------+  |  |
+   |  +--------------------------------------------+  |
+   |      ^              |               |            |
+   |   mouse/kb     canvas pixels    PCM audio        |
+   +--------------------------------------------------+
+</pre>
+</center>
+
+<br>
+
+<p>
+The layers, from bottom to top:
+</p>
+
+<table border="1" cellpadding="6" cellspacing="0" bordercolor="#333366" width="100%">
+<tr>
+  <td class="header-cell"><font color="#ffff00" size="2"><b>LAYER</b></font></td>
+  <td class="header-cell"><font color="#ffff00" size="2"><b>TECHNOLOGY</b></font></td>
+  <td class="header-cell"><font color="#ffff00" size="2"><b>WHAT IT DOES</b></font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff4444">BREAKIN.EXE</font></td>
+  <td class="info-cell"><font color="#cccccc">x86 real-mode DOS</font></td>
+  <td class="info-cell"><font color="#cccccc">The original 93KB game binary from 1993</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff8844">wdosbox.wasm</font></td>
+  <td class="info-cell"><font color="#cccccc">WebAssembly (1.4MB)</font></td>
+  <td class="info-cell"><font color="#cccccc">DOSBox emulator compiled from C++ to WASM via Emscripten</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ffff00">emulators.js</font></td>
+  <td class="info-cell"><font color="#cccccc">JavaScript</font></td>
+  <td class="info-cell"><font color="#cccccc">Loads WASM modules, manages file system, bridges JS&harr;WASM</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#00ff00">js-dos.js</font></td>
+  <td class="info-cell"><font color="#cccccc">JavaScript + Redux</font></td>
+  <td class="info-cell"><font color="#cccccc">UI orchestrator: unpacks bundles, manages state, renders player</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#00ffff">index.html</font></td>
+  <td class="info-cell"><font color="#cccccc">HTML5 / CSS3</font></td>
+  <td class="info-cell"><font color="#cccccc">Arcade cabinet shell with CRT effects and controls</font></td>
+</tr>
+</table>
+
+</font>
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<div class="paddle"></div>
+<br>
+
+<!-- ============================================================ -->
+<!--  SECTION 2: THE .JSDOS BUNDLE                                -->
+<!-- ============================================================ -->
+
+<a name="bundle"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td>
+
+<div class="section-hdr">
+  <font size="4" color="#00ffff">&#9612; SECTION 2: THE .JSDOS BUNDLE</font>
+</div>
+
+<blockquote>
+<font color="#00ff00" size="3">
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>What is a .jsdos file?</b></font>
+</p>
+
+<p>
+It's a <font color="#ffff00">ZIP archive</font> with a special structure. Inside it you'll find the original DOS game files <i>plus</i> a <font color="#00ffff">.jsdos/dosbox.conf</font> configuration file that tells the emulator how to set up the virtual machine.
+</p>
+
+<p>
+Our bundle <font color="#ff8844">breakanoid.jsdos</font> (172KB) contains <font color="#ffffff">34 files</font>:
+</p>
+
+<pre class="code">
+<span class="comment"># You can unzip it like any ZIP file:</span>
+$ unzip breakanoid.jsdos -d breakin-files/
+
+<span class="comment"># The magic is in the config:</span>
+breakin-files/
+  <span class="keyword">.jsdos/</span>
+    <span class="string">dosbox.conf</span>    <span class="comment">&lt;-- emulator configuration</span>
+  <span class="keyword">BREAKIN.EXE</span>       <span class="comment">&lt;-- the game! (93KB)</span>
+  BREAKIN.ANI       <span class="comment">&lt;-- animation data (32KB)</span>
+  EXTRA.ANI         <span class="comment">&lt;-- extra weapon animations</span>
+  ENEMY.SPR         <span class="comment">&lt;-- enemy sprite sheet</span>
+  BLOCKS.BUP        <span class="comment">&lt;-- brick graphics (32KB)</span>
+  *.PIC             <span class="comment">&lt;-- 256-color title screens (65KB each)</span>
+  *.FNT             <span class="comment">&lt;-- bitmap font data</span>
+  *.VOC             <span class="comment">&lt;-- Sound Blaster voice samples</span>
+  TRACK2.MUS        <span class="comment">&lt;-- FM synthesis music</span>
+  TESTLVL.*         <span class="comment">&lt;-- level data + hit maps</span>
+  TOP100.ASG        <span class="comment">&lt;-- high score table</span>
+</pre>
+
+<div class="note-box">
+<b>NOTE:</b> The .PIC files are raw 320x200 VGA framebuffer dumps &mdash; 64,768 bytes each (320 * 200 = 64,000 pixels + 768 bytes of palette data). The palette is appended as 256 RGB triplets. This was standard practice in the DOS shareware era &mdash; no PNG, no JPEG, just raw video memory!
+</div>
+
+<p>
+The JavaScript code that loads this bundle is beautifully simple:
+</p>
+
+<pre class="code">
+<span class="tag">Dos</span>(<span class="keyword">document</span>.getElementById(<span class="string">"dos"</span>), {
+  <span class="attr">url</span>: <span class="string">"breakanoid.jsdos"</span>,        <span class="comment">// the ZIP bundle</span>
+  <span class="attr">autoStart</span>: <span class="value">true</span>,                <span class="comment">// skip the "click to start" screen</span>
+  <span class="attr">pathPrefix</span>: <span class="string">"assets/emulators/"</span>, <span class="comment">// where to find WASM files</span>
+  <span class="attr">onEvent</span>: (event, ci) =&gt; {
+    <span class="keyword">if</span> (event === <span class="string">"ci-ready"</span>) {
+      <span class="comment">// emulator is running! BREAKIN.EXE has started.</span>
+      <span class="comment">// ci = command interface for mute/unmute etc.</span>
+      dosCI = ci;
+      hideLoader();
+    }
+  }
+});
+</pre>
+
+<p>
+That's it. One function call. js-dos handles everything else: fetching the ZIP, extracting files into a virtual filesystem, parsing dosbox.conf, booting the emulated DOS, and running the EXE.
+</p>
+
+</font>
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<div class="paddle"></div>
+<br>
+
+<!-- ============================================================ -->
+<!--  SECTION 3: DOSBOX CONFIGURATION                              -->
+<!-- ============================================================ -->
+
+<a name="dosbox"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td>
+
+<div class="section-hdr">
+  <font size="4" color="#00ffff">&#9612; SECTION 3: DOSBOX CONFIGURATION</font>
+</div>
+
+<blockquote>
+<font color="#00ff00" size="3">
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>The .jsdos/dosbox.conf file is the heart of the emulation setup.</b></font>
+</p>
+
+<p>
+It configures the virtual hardware to match what BREAKIN.EXE expects to find on a 1993 PC:
+</p>
+
+<pre class="code">
+<span class="comment"># .jsdos/dosbox.conf</span>
+
+[sdl]
+fullscreen=<span class="value">false</span>
+autolock=<span class="value">true</span>          <span class="comment"># auto-capture mouse on click</span>
+
+[dosbox]
+machine=<span class="string">svga_s3</span>       <span class="comment"># emulate S3 Trio SVGA card</span>
+                       <span class="comment"># (BREAKIN only needs VGA 320x200x256)</span>
+
+[cpu]
+core=<span class="value">auto</span>             <span class="comment"># dynamic recompiler when available</span>
+cputype=<span class="value">auto</span>
+cycles=<span class="value">3000</span>           <span class="comment"># ~3000 instructions per millisecond</span>
+                       <span class="comment"># roughly equivalent to a 286 @ 12MHz</span>
+
+[sblaster]
+sbtype=<span class="string">sb16</span>           <span class="comment"># Sound Blaster 16 emulation</span>
+sbbase=<span class="value">220</span>            <span class="comment"># I/O base address (standard)</span>
+irq=<span class="value">7</span>                 <span class="comment"># interrupt request line</span>
+dma=<span class="value">1</span>                 <span class="comment"># 8-bit DMA channel</span>
+hdma=<span class="value">5</span>                <span class="comment"># 16-bit DMA channel</span>
+
+[mixer]
+rate=<span class="value">44100</span>            <span class="comment"># output sample rate in Hz</span>
+
+[autoexec]
+@echo off
+mount c .              <span class="comment"># mount bundle root as C:\</span>
+c:
+BREAKIN.EXE            <span class="comment"># launch the game!</span>
+</pre>
+
+<p>
+<font color="#ffff00">How the cycle count works:</font> DOSBox doesn't run at a real clock speed. Instead, it executes <font color="#00ffff">cycles</font> instructions per millisecond. 3000 cycles/ms gives roughly 286-12MHz performance &mdash; exactly what the original README specifies as the minimum requirement.
+</p>
+
+<div class="note-box">
+<b>HARDWARE EMULATED:</b>
+<br>CPU: Intel 286 equivalent (3000 cycles)
+<br>GPU: S3 Trio SVGA (VGA Mode 13h: 320x200, 256 colors)
+<br>Sound: Creative Sound Blaster 16 (IRQ 7, DMA 1, base 220h)
+<br>Mouse: PS/2 compatible (via browser mouse events)
+<br>Disk: Virtual C:\ drive (from ZIP contents)
+</div>
+
+<p>
+The <font color="#00ffff">[autoexec]</font> section works just like AUTOEXEC.BAT &mdash; it mounts the game files as drive C: and immediately runs BREAKIN.EXE. The user sees the game title screen within seconds of the page loading.
+</p>
+
+</font>
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<div class="paddle"></div>
+<br>
+
+<!-- ============================================================ -->
+<!--  SECTION 4: WEBASSEMBLY EMULATION                             -->
+<!-- ============================================================ -->
+
+<a name="wasm"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td>
+
+<div class="section-hdr">
+  <font size="4" color="#00ffff">&#9612; SECTION 4: WEBASSEMBLY EMULATION ENGINE</font>
+</div>
+
+<blockquote>
+<font color="#00ff00" size="3">
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>The emulator is DOSBox, compiled from C++ to WebAssembly.</b></font>
+</p>
+
+<p>
+The <font color="#00ffff">assets/emulators/</font> directory contains the entire emulation runtime:
+</p>
+
+<table border="1" cellpadding="5" cellspacing="0" bordercolor="#333366" width="100%">
+<tr>
+  <td class="header-cell"><font color="#ffff00" size="2"><b>FILE</b></font></td>
+  <td class="header-cell"><font color="#ffff00" size="2"><b>SIZE</b></font></td>
+  <td class="header-cell"><font color="#ffff00" size="2"><b>PURPOSE</b></font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff4444">wdosbox.wasm</font></td>
+  <td class="info-cell" align="right"><font color="#cccccc">1.4 MB</font></td>
+  <td class="info-cell"><font color="#cccccc">Standard DOSBox &mdash; the actual emulator binary</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff4444">wdosbox.js</font></td>
+  <td class="info-cell" align="right"><font color="#cccccc">101 KB</font></td>
+  <td class="info-cell"><font color="#cccccc">Emscripten JS glue code for wdosbox.wasm</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff8844">wdosbox-x.wasm</font></td>
+  <td class="info-cell" align="right"><font color="#cccccc">6.4 MB</font></td>
+  <td class="info-cell"><font color="#cccccc">Extended DOSBox-X (more hardware, not used here)</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff8844">wdosbox-x.js</font></td>
+  <td class="info-cell" align="right"><font color="#cccccc">216 KB</font></td>
+  <td class="info-cell"><font color="#cccccc">Glue code for DOSBox-X variant</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#00ff00">wlibzip.wasm</font></td>
+  <td class="info-cell" align="right"><font color="#cccccc">110 KB</font></td>
+  <td class="info-cell"><font color="#cccccc">libzip compiled to WASM &mdash; unpacks .jsdos bundles</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#00ff00">wlibzip.js</font></td>
+  <td class="info-cell" align="right"><font color="#cccccc">73 KB</font></td>
+  <td class="info-cell"><font color="#cccccc">Glue code for libzip</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#00ffff">emulators.js</font></td>
+  <td class="info-cell" align="right"><font color="#cccccc">70 KB</font></td>
+  <td class="info-cell"><font color="#cccccc">Abstraction layer: loads correct WASM modules</font></td>
+</tr>
+</table>
+
+<br>
+
+<p>
+<font color="#ffff00">The compilation pipeline that created these files:</font>
+</p>
+
+<pre class="code">
+<span class="comment"># DOSBox is written in C++ (~200K lines)</span>
+<span class="comment"># Emscripten compiles it to WebAssembly:</span>
+
+DOSBox C++ source
+       |
+       v
+  [Emscripten compiler (emcc)]
+       |
+       +--&gt; <span class="keyword">wdosbox.wasm</span>   (compiled binary)
+       +--&gt; <span class="keyword">wdosbox.js</span>     (JS runtime/glue)
+
+<span class="comment"># The .wasm file contains compiled machine code that runs</span>
+<span class="comment"># at near-native speed in the browser's WASM VM.</span>
+<span class="comment">#</span>
+<span class="comment"># It handles:</span>
+<span class="comment">#   - x86 CPU instruction decode + execute</span>
+<span class="comment">#   - VGA framebuffer rendering</span>
+<span class="comment">#   - Sound Blaster DSP + FM synthesis (OPL3)</span>
+<span class="comment">#   - DMA transfers, IRQ handling, PIC, PIT timers</span>
+<span class="comment">#   - FAT filesystem emulation</span>
+<span class="comment">#   - PS/2 mouse + keyboard controller</span>
+</pre>
+
+<div class="note-box">
+<b>WHY WASM?</b> JavaScript is too slow for cycle-accurate CPU emulation. WebAssembly runs at near-native speed &mdash; close to a C++ binary compiled for your actual CPU. The 1.4MB wdosbox.wasm replaces what would have been a 50MB+ native DOSBox install. The game thinks it's running on a real 286 with a Sound Blaster card. It has no idea it's inside a browser.
+</div>
+
+<p>
+<font color="#ff00ff">The boot sequence:</font>
+</p>
+
+<pre class="code">
+<span class="comment">// 1. js-dos.js fetches breakanoid.jsdos (ZIP)</span>
+<span class="comment">// 2. wlibzip.wasm extracts the ZIP in-memory</span>
+<span class="comment">// 3. dosbox.conf is parsed for hardware config</span>
+<span class="comment">// 4. wdosbox.wasm is loaded + initialized</span>
+<span class="comment">// 5. Game files are mounted as a virtual C:\ drive</span>
+<span class="comment">// 6. [autoexec] runs: mount c . && BREAKIN.EXE</span>
+<span class="comment">// 7. VGA output is rendered to a &lt;canvas&gt; element</span>
+<span class="comment">// 8. Audio samples are pushed to Web Audio API</span>
+<span class="comment">// 9. Mouse/keyboard events are translated to DOS interrupts</span>
+</pre>
+
+</font>
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<div class="paddle"></div>
+<br>
+
+<!-- ============================================================ -->
+<!--  SECTION 5: THE ARCADE CABINET                                -->
+<!-- ============================================================ -->
+
+<a name="cabinet"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td>
+
+<div class="section-hdr">
+  <font size="4" color="#00ffff">&#9612; SECTION 5: THE ARCADE CABINET (HTML/CSS)</font>
+</div>
+
+<blockquote>
+<font color="#00ff00" size="3">
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>The page wraps the emulator in a CRT monitor + arcade cabinet shell.</b></font>
+</p>
+
+<p>
+The HTML structure is clean and semantic:
+</p>
+
+<pre class="code">
+<span class="tag">&lt;div class=</span><span class="string">"cabinet"</span><span class="tag">&gt;</span>
+
+  <span class="comment">&lt;!-- Neon-lit header with game title --&gt;</span>
+  <span class="tag">&lt;div class=</span><span class="string">"marquee"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>BREAKIN<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;div class=</span><span class="string">"subtitle"</span><span class="tag">&gt;</span>XRAY PRODUCTIONS...<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+
+  <span class="comment">&lt;!-- CRT monitor with bezel and effects --&gt;</span>
+  <span class="tag">&lt;div class=</span><span class="string">"crt-bezel"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div class=</span><span class="string">"screen-wrap"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div id=</span><span class="string">"dos"</span><span class="tag">&gt;&lt;/div&gt;</span>   <span class="comment">&lt;!-- js-dos renders here --&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+
+  <span class="comment">&lt;!-- Buttons: FULLSCREEN / DOCS / SOUND --&gt;</span>
+  <span class="tag">&lt;div class=</span><span class="string">"controls"</span><span class="tag">&gt;</span> ... <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+</pre>
+
+<br>
+<p>
+<font color="#ffff00">The CRT effects are pure CSS &mdash; no JavaScript, no canvas tricks:</font>
+</p>
+
+<p><font color="#ff00ff"><b>1. Scanlines</b></font> &mdash; a repeating gradient overlay:</p>
+
+<pre class="code">
+<span class="tag">.screen-wrap</span>::after {
+  content: <span class="string">''</span>;
+  position: <span class="value">absolute</span>;
+  inset: <span class="value">0</span>;
+  background: <span class="keyword">repeating-linear-gradient</span>(
+    <span class="value">0deg</span>,
+    <span class="string">transparent 0px</span>,
+    <span class="string">transparent 2px</span>,
+    <span class="string">rgba(0,0,0,0.08) 2px</span>,    <span class="comment">/* dark line */</span>
+    <span class="string">rgba(0,0,0,0.08) 4px</span>
+  );
+  pointer-events: <span class="value">none</span>;     <span class="comment">/* click-through! */</span>
+  z-index: <span class="value">50</span>;
+  mix-blend-mode: <span class="value">multiply</span>;
+}
+</pre>
+
+<p><font color="#ff00ff"><b>2. CRT Curvature Vignette</b></font> &mdash; dark edges like a curved glass tube:</p>
+
+<pre class="code">
+<span class="tag">.screen-wrap</span>::before {
+  background: <span class="keyword">radial-gradient</span>(
+    ellipse at center,
+    <span class="string">transparent 60%</span>,
+    <span class="string">rgba(0,0,0,0.35) 100%</span>
+  );
+}
+</pre>
+
+<p><font color="#ff00ff"><b>3. Phosphor Glow</b></font> &mdash; subtle brightness flicker at 12.5fps:</p>
+
+<pre class="code">
+<span class="keyword">@keyframes</span> crt-glow {
+  from { filter: <span class="value">brightness(1)</span>; }
+  to   { filter: <span class="value">brightness(1.01)</span>; }
+}
+
+<span class="tag">.screen-wrap</span> {
+  animation: crt-glow <span class="value">0.08s infinite alternate</span>;
+}
+</pre>
+
+<p><font color="#ff00ff"><b>4. Neon Text Glow</b></font> &mdash; the marquee title uses stacked text-shadows:</p>
+
+<pre class="code">
+<span class="tag">.marquee h1</span> {
+  color: <span class="value">#00fff7</span>;
+  text-shadow: <span class="value">3px 3px 0 #ff00ea</span>; <span class="comment">/* magenta offset */</span>
+  letter-spacing: <span class="value">12px</span>;
+  animation: <span class="value">marquee-flicker 4s infinite</span>;
+}
+</pre>
+
+<p><font color="#ff00ff"><b>5. Custom Crosshair Cursor</b></font> &mdash; inline SVG data URI:</p>
+
+<pre class="code">
+<span class="tag">body</span> {
+  cursor: <span class="keyword">url</span>(<span class="string">'data:image/svg+xml,&lt;svg ...&gt;
+    &lt;rect x="6" y="0" width="4" height="16"
+          fill="%2300fff7"/&gt;
+    &lt;rect x="0" y="6" width="16" height="4"
+          fill="%2300fff7"/&gt;
+  &lt;/svg&gt;'</span>) 8 8, crosshair;
+}
+</pre>
+
+<div class="note-box">
+<b>DESIGN NOTE:</b> The entire page uses just two fonts: <font color="#00ffff">Press Start 2P</font> (pixel font for headers/buttons) and <font color="#00ffff">VT323</font> (terminal font for body text). Both are served locally from the assets/ folder for offline use. The color scheme is pure neon-on-black: cyan (#00fff7), magenta (#ff00ea), yellow (#ffe600), green (#39ff14).
+</div>
+
+</font>
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<div class="paddle"></div>
+<br>
+
+<!-- ============================================================ -->
+<!--  SECTION 6: INPUT & AUDIO                                     -->
+<!-- ============================================================ -->
+
+<a name="io"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td>
+
+<div class="section-hdr">
+  <font size="4" color="#00ffff">&#9612; SECTION 6: INPUT &amp; AUDIO PIPELINE</font>
+</div>
+
+<blockquote>
+<font color="#00ff00" size="3">
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>How does your mouse control a DOS game?</b></font>
+</p>
+
+<p>
+When you move your mouse over the game canvas, this chain of events fires:
+</p>
+
+<pre class="code">
+Browser mousemove event
+    |
+    v
+js-dos event handler
+    |
+    v
+Emscripten bridge (JS &rarr; WASM function call)
+    |
+    v
+DOSBox PS/2 mouse controller (in WASM)
+    |
+    v
+DOS mouse driver interrupt (INT 33h)
+    |
+    v
+BREAKIN.EXE reads mouse position &rarr; moves paddle
+</pre>
+
+<p>
+<font color="#ffff00">The game's original mouse code is unchanged.</font> It calls INT 33h (the DOS mouse interrupt) exactly as it did in 1993. DOSBox's emulated mouse controller translates browser events into the same hardware signals a real PS/2 mouse would generate.
+</p>
+
+<br>
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>Audio: Sound Blaster emulation</b></font>
+</p>
+
+<p>
+BREAKIN uses two audio systems:
+</p>
+
+<table border="1" cellpadding="5" cellspacing="0" bordercolor="#333366" width="100%">
+<tr>
+  <td class="header-cell" width="40%"><font color="#ffff00" size="2"><b>SOUND TYPE</b></font></td>
+  <td class="header-cell"><font color="#ffff00" size="2"><b>HOW IT WORKS</b></font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff88ff">.VOC samples</font><br><font size="1" color="#888888">(BONG.VOC, SMASH.VOC, etc.)</font></td>
+  <td class="info-cell"><font color="#cccccc">Digitized sound effects played through Sound Blaster DSP via DMA. The game writes PCM samples to the SB's DMA channel. DOSBox intercepts these writes, mixes the audio, and feeds it to the Web Audio API.</font></td>
+</tr>
+<tr>
+  <td class="info-cell"><font color="#ff88ff">FM Music</font><br><font size="1" color="#888888">(TRACK2.MUS)</font></td>
+  <td class="info-cell"><font color="#cccccc">Music played through the OPL3 FM synthesis chip on the Sound Blaster. DOSBox emulates the Yamaha YMF262 chip register-by-register, generating audio samples in WASM, output via Web Audio API at 44.1kHz.</font></td>
+</tr>
+</table>
+
+<br>
+
+<p>
+The page also provides a mute toggle:
+</p>
+
+<pre class="code">
+<span class="keyword">let</span> dosCI = <span class="value">null</span>;  <span class="comment">// command interface from js-dos</span>
+<span class="keyword">let</span> muted = <span class="value">false</span>;
+
+<span class="keyword">function</span> <span class="tag">toggleSound</span>() {
+  <span class="keyword">if</span> (dosCI) {
+    <span class="keyword">if</span> (muted) {
+      dosCI.<span class="tag">unmute</span>();
+      muted = <span class="value">false</span>;
+    } <span class="keyword">else</span> {
+      dosCI.<span class="tag">mute</span>();
+      muted = <span class="value">true</span>;
+    }
+  }
+}
+</pre>
+
+<p>
+<font color="#ffff00">Keyboard shortcuts</font> are handled by a single event listener:
+</p>
+
+<pre class="code">
+<span class="keyword">document</span>.addEventListener(<span class="string">"keydown"</span>, (e) =&gt; {
+  <span class="comment">// ESC closes the docs overlay</span>
+  <span class="keyword">if</span> (e.key === <span class="string">"Escape"</span> &amp;&amp; docOverlayOpen) {
+    toggleDocs();
+    <span class="keyword">return</span>;
+  }
+  <span class="comment">// F = fullscreen, H = help/docs</span>
+  <span class="keyword">if</span> (e.key === <span class="string">"f"</span>) goFullscreen();
+  <span class="keyword">if</span> (e.key === <span class="string">"h"</span>) toggleDocs();
+});
+</pre>
+
+<div class="note-box">
+<b>INPUT CAPTURE:</b> When you click on the game canvas, the browser locks the mouse pointer via the Pointer Lock API. This lets DOSBox receive raw mouse deltas (just like a real mouse driver) rather than absolute screen coordinates. Press ESC to release the capture.
+</div>
+
+</font>
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<div class="paddle"></div>
+<br>
+
+<!-- ============================================================ -->
+<!--  SECTION 7: COMPLETE FILE REFERENCE                           -->
+<!-- ============================================================ -->
+
+<a name="files"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td>
+
+<div class="section-hdr">
+  <font size="4" color="#00ffff">&#9612; SECTION 7: COMPLETE FILE REFERENCE</font>
+</div>
+
+<blockquote>
+<font color="#00ff00" size="3">
+
+<p>
+<span class="ball"></span> <font color="#ffffff"><b>Everything needed to run offline:</b></font>
+</p>
+
+<div class="file-list">
+<pre>
+<span class="dir">breakanoid/</span>
+  <span class="doc">index.html</span>            &mdash; arcade cabinet player (16KB)
+  <span class="doc">how-it-works.html</span>     &mdash; this document
+  <span class="data">breakanoid.jsdos</span>      &mdash; game bundle (172KB ZIP)
+  <span class="dir">assets/</span>
+    <span class="data">js-dos.css</span>          &mdash; emulator player styles (111KB)
+    <span class="data">js-dos.js</span>           &mdash; emulator orchestrator (301KB)
+    <span class="doc">fonts.css</span>           &mdash; @font-face declarations
+    <span class="data">PressStart2P.ttf</span>    &mdash; pixel arcade font (113KB)
+    <span class="data">VT323.ttf</span>           &mdash; CRT terminal font (144KB)
+    <span class="dir">emulators/</span>
+      <span class="data">emulators.js</span>      &mdash; WASM loader abstraction (70KB)
+      <span class="exe">wdosbox.wasm</span>      &mdash; DOSBox emulator core (1.4MB)
+      <span class="data">wdosbox.js</span>        &mdash; Emscripten glue (101KB)
+      <span class="exe">wdosbox-x.wasm</span>    &mdash; DOSBox-X extended (6.4MB)
+      <span class="data">wdosbox-x.js</span>      &mdash; Emscripten glue (216KB)
+      <span class="exe">wlibzip.wasm</span>      &mdash; ZIP decompression (110KB)
+      <span class="data">wlibzip.js</span>        &mdash; Emscripten glue (73KB)
+</pre>
+</div>
+
+<br>
+
+<p>
+<font color="#ffffff"><b>Inside the .jsdos bundle (original 1993 game files):</b></font>
+</p>
+
+<div class="file-list">
+<pre>
+<span class="dir">.jsdos/</span>
+  <span class="doc">dosbox.conf</span>           &mdash; emulator hardware config
+<span class="exe">BREAKIN.EXE</span>             &mdash; main game binary (93KB)
+<span class="data">BREAKIN.ANI</span>             &mdash; title + intro animations (32KB)
+<span class="data">EXTRA.ANI</span>               &mdash; extra weapon animations (13KB)
+<span class="data">ENEMY.SPR</span>               &mdash; enemy sprite sheet (11KB)
+<span class="data">BLOCKS.BUP</span>              &mdash; brick tile graphics (32KB)
+<span class="data">TESTLVL.BCK</span>             &mdash; level background tiles (20KB)
+<span class="data">TESTLVL</span>                 &mdash; level layout data (5KB)
+<span class="data">TESTLVL.HIT</span>             &mdash; brick hit-point map (2.5KB)
+<span class="data">TESTLVL.HNT</span>            &mdash; hint data
+<span class="data">B3.PIC</span>                  &mdash; 320x200 VGA screen (65KB)
+<span class="data">HIGHSC.PIC</span>              &mdash; high score screen (65KB)
+<span class="data">JOECK.PIC</span>               &mdash; credit screen (65KB)
+<span class="data">XSOFT2.PIC</span>              &mdash; splash screen (65KB)
+<span class="data">GOLF.FNT</span>                &mdash; bitmap font (9KB)
+<span class="data">MTV.FNT</span>                 &mdash; large bitmap font (31KB)
+<span class="data">MTVSMALL.FNT</span>            &mdash; small bitmap font (7KB)
+<span class="snd">AEAUHM.VOC</span>              &mdash; "aaugh!" sound effect (4KB)
+<span class="snd">BONG.VOC</span>                &mdash; ball bounce sound (1KB)
+<span class="snd">FETZ5.VOC</span>               &mdash; brick smash sound (6KB)
+<span class="snd">SMASH.VOC</span>               &mdash; destruction sound (343B)
+<span class="snd">TENNIS.VOC</span>              &mdash; paddle hit sound (3KB)
+<span class="snd">TRACK2.MUS</span>              &mdash; FM background music (1.2KB)
+<span class="snd">TRACK2.MUI</span>              &mdash; music instrument data
+<span class="data">EXPLO4</span>                  &mdash; explosion animation data (4KB)
+<span class="data">TOP100.ASG</span>              &mdash; high score save file (2KB)
+<span class="data">BREAKIN.CFG</span>             &mdash; game config (speed calibration)
+<span class="doc">BREAKIN.DOC</span>             &mdash; game documentation (4KB)
+<span class="doc">BREAK40D.TXT</span>            &mdash; German readme
+<span class="doc">BREAK40E.TXT</span>            &mdash; English readme
+<span class="doc">REGIST.D</span>                &mdash; German registration form
+<span class="doc">REGIST.E</span>                &mdash; English registration form
+<span class="doc">FILE_ID.DIZ</span>             &mdash; BBS file description
+<span class="data">SOUND.BAT</span>               &mdash; Sound Blaster init batch
+</pre>
+</div>
+
+<div class="note-box">
+<b>TOTAL DOWNLOAD:</b> ~9.5 MB with all emulator files cached locally. The original game itself is only 172KB &mdash; the emulator that runs it is 50x larger! But the entire thing loads in seconds on a modern connection and runs entirely offline once cached.
+</div>
+
+</font>
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<hr class="brick-hr" width="600">
+<br>
+
+<!-- ============================================================ -->
+<!--  FOOTER                                                       -->
+<!-- ============================================================ -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="640">
+<tr><td align="center">
+
+<br>
+<hr class="rainbow-hr" width="400">
+<br>
+
+<!-- Nav back -->
+<a href="index.html" class="nav-btn">&laquo; BACK TO GAME</a>
+
+<br><br>
+
+<!-- Visitor counter -->
+<font color="#888888" size="2">You are visitor number </font>
+<span class="counter">001337</span>
+<font color="#888888" size="2"> to this page</font>
+
+<br><br>
+
+<!-- Badges -->
+<span class="badge" style="color: #000080;">BEST VIEWED WITH<br>NETSCAPE NAVIGATOR</span>
+<span class="badge" style="color: #006600;">MADE WITH<br>NOTEPAD.EXE</span>
+<span class="badge" style="color: #880000;">640x480<br>256 COLORS</span>
+<span class="badge" style="color: #444444;">HTML 3.2<br>COMPATIBLE</span>
+
+<br><br>
+
+<!-- Webring -->
+<table border="1" cellpadding="4" cellspacing="0" bordercolor="#333366" bgcolor="#000040" width="400">
+<tr><td align="center">
+<font color="#ffff00" size="2"><b>&#9733; DOS GAMES WEBRING &#9733;</b></font><br>
+<font color="#00ffff" size="1">
+[ <a href="#">&laquo; PREV</a> |
+  <a href="#">RANDOM</a> |
+  <a href="#">LIST</a> |
+  <a href="#">NEXT &raquo;</a> ]
+</font>
+</td></tr>
+</table>
+
+<br>
+
+<font color="#666666" size="1">
+&copy; 1993-2026 &bull; Original game by Xray Productions (Joachim Herrmann &amp; Patrik Schnitzler)
+<br>
+Web player powered by <a href="https://js-dos.com">js-dos</a> &bull; DOSBox emulator &bull; WebAssembly
+<br>
+This page last updated: <script>document.write(new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}))</script>
+<br><br>
+<span class="glow-cyan">&#9618;&#9618;&#9618;</span>
+<span class="glow-magenta">&#9618;&#9618;&#9618;</span>
+<span class="glow-yellow">&#9618;&#9618;&#9618;</span>
+<span class="glow-cyan">&#9618;&#9618;&#9618;</span>
+<span class="glow-magenta">&#9618;&#9618;&#9618;</span>
+</font>
+
+<br><br>
+
+</td></tr>
+</table>
+
+<div class="construction-stripe"></div>
+
+</center>
+
+</body>
+</html>
