@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BREAKIN - Hosted on the Mighty SWARM - Ethswarm.org</title>
+<style>
+/*
+ * Modern CSS that produces authentic mid-90s Netscape 2.0 visuals.
+ * No gradients, no shadows, no rounded corners, no flexbox.
+ * Beveled borders, solid bgcolor fills, system-ish fonts, table layouts.
+ */
+
+body {
+  background-color: #000020;
+  color: #00cc00;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Links: the classic unvisited=cyan, visited=purple, active=red */
+a:link    { color: #00cccc; }
+a:visited { color: #cc00cc; }
+a:active  { color: #ff0000; }
+
+/* ---- CONSTRUCTION BARS ---- */
+/* Honeycomb yellow/black stripe */
+.construction {
+  height: 10px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #cccc00 0px, #cccc00 10px,
+    #000000 10px, #000000 20px
+  );
+}
+
+/* ---- BEVELED BOXES ---- */
+.bevel-out {
+  border-top: 2px solid #888888;
+  border-left: 2px solid #888888;
+  border-bottom: 2px solid #333333;
+  border-right: 2px solid #333333;
+  padding: 4px 8px;
+}
+
+.bevel-in {
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+  padding: 4px 8px;
+}
+
+/* ---- SECTION HEADERS ---- */
+.section-bar {
+  background-color: #000080;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 8px;
+  margin-top: 24px;
+  margin-bottom: 8px;
+  border-top: 2px solid #4444aa;
+  border-left: 2px solid #4444aa;
+  border-bottom: 2px solid #000040;
+  border-right: 2px solid #000040;
+}
+
+/* Honey-themed section bars */
+.section-bar-honey {
+  background-color: #886600;
+  color: #ffff00;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 8px;
+  margin-top: 24px;
+  margin-bottom: 8px;
+  border-top: 2px solid #ccaa00;
+  border-left: 2px solid #ccaa00;
+  border-bottom: 2px solid #443300;
+  border-right: 2px solid #443300;
+}
+
+/* ---- CODE BLOCKS ---- */
+pre.code {
+  background-color: #000000;
+  color: #00cc00;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  padding: 8px;
+  margin: 8px 16px;
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ---- DATA TABLES ---- */
+table.data-table {
+  border-collapse: separate;
+  border-spacing: 2px;
+  margin: 8px 16px;
+}
+
+table.data-table th {
+  background-color: #886600;
+  color: #ffff00;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-top: 1px solid #ccaa00;
+  border-left: 1px solid #ccaa00;
+  border-bottom: 1px solid #443300;
+  border-right: 1px solid #443300;
+  text-align: left;
+}
+
+table.data-table td {
+  background-color: #0a0a20;
+  color: #cccccc;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-top: 1px solid #333333;
+  border-left: 1px solid #333333;
+  border-bottom: 1px solid #666666;
+  border-right: 1px solid #666666;
+}
+
+/* ---- NOTE BOXES ---- */
+.note-box {
+  background-color: #333300;
+  color: #cccc00;
+  border: 2px solid #cccc00;
+  padding: 6px 10px;
+  margin: 10px 16px;
+  font-size: 13px;
+}
+
+/* ---- NAV BUTTONS ---- */
+a.navbtn {
+  display: inline-block;
+  background-color: #666688;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 10px;
+  margin: 2px;
+  border-top: 2px solid #8888aa;
+  border-left: 2px solid #8888aa;
+  border-bottom: 2px solid #333355;
+  border-right: 2px solid #333355;
+}
+
+a.navbtn:active {
+  border-top: 2px solid #333355;
+  border-left: 2px solid #333355;
+  border-bottom: 2px solid #8888aa;
+  border-right: 2px solid #8888aa;
+}
+
+/* ---- VISITOR COUNTER ---- */
+.counter {
+  display: inline;
+  background-color: #000000;
+  color: #cccc00;
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  padding: 2px 8px;
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
+
+/* ---- BADGE BUTTONS ---- */
+.badge {
+  display: inline-block;
+  background-color: #cccccc;
+  color: #000080;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 8px;
+  margin: 3px;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
+
+/* ---- FILE LISTINGS ---- */
+pre.files {
+  background-color: #000000;
+  color: #00cc00;
+  font-size: 13px;
+  padding: 8px;
+  margin: 8px 16px;
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-bottom: 2px solid #888888;
+  border-right: 2px solid #888888;
+}
+
+/* ---- HORIZONTAL RULES ---- */
+hr.ns {
+  height: 2px;
+  border: none;
+  border-top: 1px solid #888888;
+  border-bottom: 1px solid #333333;
+  margin: 12px 0;
+}
+
+hr.rainbow {
+  height: 4px;
+  border: none;
+  background: #ccaa00;
+}
+
+/* ---- MARQUEE ---- */
+marquee {
+  background-color: #332200;
+  color: #cccc00;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 3px 0;
+  border-top: 2px solid #665500;
+  border-left: 2px solid #665500;
+  border-bottom: 2px solid #1a1100;
+  border-right: 2px solid #1a1100;
+}
+
+/* ---- ASCII ART PRE ---- */
+pre.ascii {
+  color: #cccc00;
+  font-size: 12px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+pre.ascii-big {
+  color: #cccc00;
+  font-size: 10px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/* ---- TOC ---- */
+.toc {
+  background-color: #0a0a30;
+  padding: 10px 16px;
+  display: inline-block;
+  text-align: left;
+  border-top: 2px solid #333366;
+  border-left: 2px solid #333366;
+  border-bottom: 2px solid #666699;
+  border-right: 2px solid #666699;
+}
+
+.toc ol { margin: 4px 0; padding-left: 24px; }
+.toc li { margin: 2px 0; }
+
+/* ---- PADDLE DIVIDER ---- */
+.paddle-div {
+  width: 120px;
+  height: 10px;
+  margin: 8px auto;
+  background-color: #886600;
+  border-top: 2px solid #ccaa00;
+  border-left: 2px solid #ccaa00;
+  border-bottom: 2px solid #443300;
+  border-right: 2px solid #443300;
+}
+
+/* ---- WEBRING ---- */
+.webring {
+  background-color: #1a1100;
+  color: #cccc00;
+  text-align: center;
+  padding: 6px;
+  border: 2px solid #886600;
+  display: inline-block;
+}
+
+/* ---- HEXAGON HONEYCOMB ---- */
+.honey-border {
+  background-color: #1a1100;
+  border: 3px solid #ccaa00;
+  padding: 12px;
+  margin: 12px 16px;
+  text-align: center;
+}
+
+/* Bee animation */
+@keyframes fly-bee {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.bee-fly {
+  display: inline-block;
+  animation: fly-bee 0.6s ease-in-out infinite;
+}
+
+.bee-fly-delay {
+  display: inline-block;
+  animation: fly-bee 0.6s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================ -->
+<!-- CONSTRUCTION BAR                                              -->
+<!-- ============================================================ -->
+<div class="construction"></div>
+
+<br>
+
+<!-- ============================================================ -->
+<!-- TITLE                                                         -->
+<!-- ============================================================ -->
+<center>
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+
+<pre class="ascii-big">
+        _                                    
+       /_/_      .'''.                       
+    =O(_)))) ...'     `.                     
+       \_\              `.    .'''           
+                          `..'               
+ The              _                          
+                 /_/_      .'''.             
+     Mighty   =O(_)))) ...'     `.           
+                 \_\              `.    .''' 
+   Swarm                            `..'     
+             _                               
+            /_/_      .'''.                  
+         =O(_)))) ...'     `.                
+            \_\              `.    .'''      
+                               `..'          
+</pre>
+
+<br>
+
+<font size="+3" color="#cccc00"><b>HOSTED ON THE MIGHTY SWARM</b></font>
+<br>
+<font size="+1" color="#ff8800">
+<span class="bee-fly">~B</span><span class="bee-fly-delay">Z</span><span class="bee-fly">Z</span><span class="bee-fly-delay">Z</span><span class="bee-fly">Z</span><span class="bee-fly-delay">Z</span><span class="bee-fly">Z</span><span class="bee-fly-delay">~</span>
+</font>
+<br>
+<font size="-1" color="#cccc00">Decentralized. Unstoppable. Immortal. * Est. 2026</font>
+<br>
+<font size="-2" color="#888888">Best viewed with Netscape Navigator 2.0 at 640x480</font>
+
+<br><br>
+
+<marquee scrollamount="3" width="600">
+*** THIS SITE IS HOSTED ON ETHEREUM SWARM *** YOUR DATA SPLIT INTO 4KB CHUNKS AND SCATTERED ACROSS THE GLOBE *** NO SERVERS TO TAKE DOWN *** NO CENSORSHIP POSSIBLE *** BZZ:// PROTOCOL *** THE HIVE MIND IS REAL *** LONG LIVE THE SWARM ***
+</marquee>
+
+<br>
+
+<hr class="ns" width="600" noshade>
+
+</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- NAVIGATION                                                    -->
+<!-- ============================================================ -->
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center" bgcolor="#1a1100" class="bevel-out">
+  <a href="index.html" class="navbtn">&lt;&lt; PLAY GAME</a>
+  <a href="#wtf" class="navbtn">WTF IS SWARM</a>
+  <a href="#howwork" class="navbtn">HOW IT WORKS</a>
+  <a href="#anatomy" class="navbtn">ANATOMY</a>
+  <a href="#glossary" class="navbtn">GLOSSARY</a>
+  <a href="#why" class="navbtn">WHY THO</a>
+  <a href="#fund" class="navbtn">FUND IT!</a>
+  <a href="how-it-works.html" class="navbtn">TECH DOCS</a>
+</td></tr>
+</table>
+
+<br>
+
+<!-- ============================================================ -->
+<!-- TABLE OF CONTENTS                                             -->
+<!-- ============================================================ -->
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+
+<div class="toc">
+<font color="#cccc00" size="+1"><b>== TABLE OF CONTENTS ==</b></font>
+<ol>
+  <li><a href="#wtf">WTF is Ethereum Swarm?</a></li>
+  <li><a href="#howwork">How Does Swarm Hosting Work?</a></li>
+  <li><a href="#anatomy">Anatomy of a Swarm-Hosted Site</a></li>
+  <li><a href="#glossary">The Hive Glossary</a></li>
+  <li><a href="#why">Why Host BREAKIN on the Swarm?</a></li>
+  <li><a href="#fund">RAISE THE ROOF! Fund the Stamp</a></li>
+</ol>
+</div>
+
+</td></tr>
+</table>
+
+<br>
+<hr class="rainbow" width="600">
+<br>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 1: WTF IS SWARM                                       -->
+<!-- ============================================================ -->
+
+<a name="wtf"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar-honey">
+  [ SECTION 1 ] WTF IS ETHEREUM SWARM?
+</div>
+
+<blockquote>
+
+<pre class="code">
+<font color="#cccc00">
+         ,-.
+        /   \      "The World Computer's Hard Drive"
+       /     \
+      | () () |    Conceived alongside Ethereum itself
+       \  ^  /     by the original founders.
+        |   |
+        '---'      One of the three pillars:
+       /|   |\       * Ethereum .... computation
+      / |   | \      * Whisper ..... messaging
+     /  '---'  \     * <font color="#ff8800">Swarm</font> ...... <font color="#ff8800">storage</font>
+</font>
+</pre>
+
+<p>
+<font color="#ffffff"><b>Ethereum Swarm is a decentralized storage and distribution network.</b></font>
+</p>
+
+<p>
+Think of it as <font color="#cccc00">BitTorrent meets a global hard drive</font>, but with
+<font color="#ff8800">economic incentives built in</font>. Nodes get paid to store and serve
+data. No single server, no single point of failure, no kill switch.
+</p>
+
+<p>
+Your files get split into <font color="#cccc00">4KB chunks</font>, content-addressed by their
+cryptographic hash, and scattered across a peer-to-peer network of
+<font color="#ff8800">Bee nodes</font> running across the planet. Tamper with a single byte and
+the hash breaks -- data integrity is mathematically guaranteed.
+</p>
+
+<div class="note-box">
+<b>KEY INSIGHT:</b> Once data is uploaded to the Swarm, the original
+uploader can disappear. The network continues to serve the content
+autonomously. <font color="#ffffff">"Upload and disappear"</font> is a feature, not a bug.
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 2: HOW DOES IT WORK                                   -->
+<!-- ============================================================ -->
+
+<a name="howwork"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar-honey">
+  [ SECTION 2 ] HOW DOES SWARM HOSTING WORK?
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>From HTML files to immortal chunks on the global hive.</b></font>
+</p>
+
+<pre class="code">
+<font color="#cccc00">YOUR WEBSITE</font>                         <font color="#cccc00">THE SWARM</font>
+
+  index.html                    <font color="#ff8800">Bee Node (Tokyo)</font>
+  style.css        ------>        chunk a3f8...
+  game.jsdos       UPLOAD         chunk 7c01...
+  assets/          + STAMP
+                                <font color="#ff8800">Bee Node (Berlin)</font>
+                   ------>        chunk d4e2...
+  Each file is                    chunk 91bb...
+  split into
+  4KB chunks      ------>      <font color="#ff8800">Bee Node (NYC)</font>
+  addressed by                    chunk f0ca...
+  content hash                    chunk 2d77...
+
+                               <font color="#ff8800">Bee Node (Sao Paulo)</font>
+                   ------>        chunk a3f8... <font color="#666699">(redundant!)</font>
+                                  chunk 7c01... <font color="#666699">(redundant!)</font>
+</pre>
+
+<p>
+<font color="#cccc00">Step by step:</font>
+</p>
+
+<p>
+<font color="#cc00cc"><b>1.</b></font> Run a <font color="#ff8800">Bee light node</font> (or use a gateway)<br>
+<font color="#cc00cc"><b>2.</b></font> Fund it with <font color="#cccc00">xDAI</font> on Gnosis Chain for transaction fees<br>
+<font color="#cc00cc"><b>3.</b></font> Buy a batch of <font color="#ff8800">Postage Stamps</font> with BZZ tokens<br>
+<font color="#cc00cc"><b>4.</b></font> Upload your site with a single command:
+</p>
+
+<pre class="code">
+<font color="#888888">$ swarm-cli feed upload ./breakanoid/ \</font>
+<font color="#888888">    --index-document index.html \</font>
+<font color="#888888">    --stamp &lt;batch-id&gt;</font>
+
+<font color="#00cc00">Uploading breakanoid/ ...</font>
+<font color="#00cc00">  index.html ............ 16 KB ... 4 chunks</font>
+<font color="#00cc00">  breakanoid.jsdos ....... 172 KB .. 43 chunks</font>
+<font color="#00cc00">  assets/js-dos.js ....... 301 KB .. 76 chunks</font>
+<font color="#00cc00">  assets/emulators/ ...... 8.3 MB .. 2,133 chunks</font>
+<font color="#00cc00">  ...</font>
+<font color="#cccc00">Feed reference: a7f3c8d9e...</font>
+<font color="#cccc00">Access via: bzz://a7f3c8d9e.../</font>
+</pre>
+
+<p>
+<font color="#cccc00"><b>5.</b></font> Done. Your site is now hosted on the Swarm. Access it through
+any Swarm gateway or directly via the <font color="#ff8800">bzz://</font> protocol.
+No monthly bills. No server to maintain. No DNS to expire.
+</p>
+
+<div class="honey-border">
+<pre class="ascii">
+    \     /\     /\     /       THE HIVE STORES
+     \   /  \   /  \   /        YOUR DATA FOREVER*
+      \_/    \_/    \_/
+      / \    / \    / \         *as long as your
+     /   \  /   \  /   \        postage stamps last
+    /     \/     \/     \
+</pre>
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 3: ANATOMY                                            -->
+<!-- ============================================================ -->
+
+<a name="anatomy"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar-honey">
+  [ SECTION 3 ] ANATOMY OF A SWARM-HOSTED SITE
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>What happens when someone visits BREAKIN on the Swarm?</b></font>
+</p>
+
+<pre class="code">
+<font color="#cccc00">USER'S BROWSER</font>
+       |
+       | HTTPS request
+       v
+<font color="#ff8800">SWARM GATEWAY</font>  (e.g. api.gateway.ethswarm.org)
+       |
+       | Resolves feed reference
+       v
+<font color="#ff8800">MANIFEST ROOT CHUNK</font>
+       |
+       | Looks up "index.html" in manifest
+       v
+<font color="#ff8800">CHUNK TREE</font> (Merkle tree of 4KB chunks)
+       |
+       | Retrieves chunks from nearest Bee nodes
+       | via DISC protocol (Distributed Immutable
+       | Store for Chunks)
+       v
+<font color="#00cc00">REASSEMBLED FILE</font> ---> sent to browser
+       |
+       v
+<font color="#cccc00">BREAKIN LOADS IN BROWSER</font>
+       |
+       | js-dos boots DOSBox via WASM
+       v
+<font color="#cc4444">BREAKIN.EXE RUNS</font> -- just like 1993!
+</pre>
+
+<br>
+
+<p>
+<font color="#cccc00">The manifest</font> is a special Swarm data structure that maps
+URL paths to content hashes -- essentially a decentralized
+web server configuration:
+</p>
+
+<pre class="code">
+<font color="#666699"># Swarm Manifest (simplified)</font>
+{
+  <font color="#cc8844">"/"</font>                  -> <font color="#cccc00">hash_of_index_html</font>
+  <font color="#cc8844">"/assets/js-dos.js"</font>  -> <font color="#cccc00">hash_of_jsdos</font>
+  <font color="#cc8844">"/breakanoid.jsdos"</font>  -> <font color="#cccc00">hash_of_bundle</font>
+  <font color="#cc8844">"/how-it-works.html"</font> -> <font color="#cccc00">hash_of_docs</font>
+  <font color="#cc8844">"/swarm.html"</font>        -> <font color="#cccc00">hash_of_this_page</font>
+  ...
+}
+</pre>
+
+<table class="data-table" width="100%">
+<tr>
+  <th>CONCEPT</th>
+  <th>TRADITIONAL WEB</th>
+  <th>SWARM</th>
+</tr>
+<tr>
+  <td><font color="#cccc00">Server</font></td>
+  <td>Single machine (AWS, VPS)</td>
+  <td>Thousands of Bee nodes worldwide</td>
+</tr>
+<tr>
+  <td><font color="#cccc00">Address</font></td>
+  <td>IP address / domain name</td>
+  <td>Content hash (bzz://a7f3c...)</td>
+</tr>
+<tr>
+  <td><font color="#cccc00">Storage</font></td>
+  <td>Files on a disk</td>
+  <td>4KB chunks scattered globally</td>
+</tr>
+<tr>
+  <td><font color="#cccc00">Payment</font></td>
+  <td>Monthly server bills forever</td>
+  <td>One-time postage stamp purchase</td>
+</tr>
+<tr>
+  <td><font color="#cccc00">Censorship</font></td>
+  <td>ISP/host can pull the plug</td>
+  <td>No single entity can remove content</td>
+</tr>
+<tr>
+  <td><font color="#cccc00">Downtime</font></td>
+  <td>Server crashes = site down</td>
+  <td>Network is always up somewhere</td>
+</tr>
+</table>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 4: GLOSSARY                                           -->
+<!-- ============================================================ -->
+
+<a name="glossary"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar-honey">
+  [ SECTION 4 ] THE HIVE GLOSSARY
+</div>
+
+<blockquote>
+
+<pre class="code">
+<font color="#cccc00">
+            _
+           / \        KNOW YOUR BEES
+          / _ \
+         | / \ |      Every good hive member
+         ||   ||      learns the lingo.
+         ||   ||
+          \\_//
+           \_/
+</font>
+</pre>
+
+<table class="data-table" width="100%">
+<tr>
+  <th width="25%">TERM</th>
+  <th>MEANING</th>
+</tr>
+<tr>
+  <td><font color="#ff8800">Bee</font></td>
+  <td>The official Swarm node client. You run one to join the
+  network. Written in Go. Light nodes can upload/download without
+  storing data for others.</td>
+</tr>
+<tr>
+  <td><font color="#ff8800">BZZ</font></td>
+  <td>The native ERC-20 token of Swarm. Used to buy postage stamps
+  and for all economic activity on the network. Also the protocol
+  prefix: <font color="#cccc00">bzz://</font></td>
+</tr>
+<tr>
+  <td><font color="#ff8800">Chunk</font></td>
+  <td>The fundamental unit of storage. Every file is split into 4KB
+  chunks, each content-addressed by its hash. Everything is chunks.
+  Chunks all the way down.</td>
+</tr>
+<tr>
+  <td><font color="#ff8800">Postage Stamp</font></td>
+  <td>Prepaid storage credits. You buy a batch of stamps with BZZ
+  tokens to upload data. Like buying actual postage before mailing
+  a letter. Choose amount + TTL (time to live).</td>
+</tr>
+<tr>
+  <td><font color="#ff8800">Feed</font></td>
+  <td>A mutable pointer to immutable content. Lets you update your
+  website at a fixed address without changing the URL. Like DNS
+  but decentralized.</td>
+</tr>
+<tr>
+  <td><font color="#ff8800">Manifest</font></td>
+  <td>A data structure mapping URL paths to content hashes. Acts as
+  a decentralized webserver config -- routes /index.html to the
+  right chunks.</td>
+</tr>
+<tr>
+  <td><font color="#ff8800">DISC</font></td>
+  <td>Distributed Immutable Store for Chunks. The protocol that
+  retrieves chunks from the nearest Bee nodes. Chunks migrate toward
+  nodes whose address is closest to the chunk hash.</td>
+</tr>
+<tr>
+  <td><font color="#ff8800">Gnosis Chain</font></td>
+  <td>The L1 blockchain where Swarm's incentive layer runs.
+  Transaction fees paid in xDAI (stablecoin). Fast and cheap.</td>
+</tr>
+<tr>
+  <td><font color="#ff8800">Gateway</font></td>
+  <td>An HTTP bridge to the Swarm network. Lets normal browsers
+  access Swarm content via regular HTTPS URLs without running
+  a Bee node locally.</td>
+</tr>
+</table>
+
+<div class="note-box">
+<b>FUN FACT:</b> The Swarm team really committed to the bee theme.
+The node is called Bee. The token is BZZ. The test tokens are gBZZ.
+The protocol is bzz://. The testnet was called "Queen".
+<font color="#ffffff">They really like bees.</font>
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 5: WHY                                                -->
+<!-- ============================================================ -->
+
+<a name="why"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar-honey">
+  [ SECTION 5 ] WHY HOST BREAKIN ON THE SWARM?
+</div>
+
+<blockquote>
+
+<p>
+<font color="#ffffff"><b>A 1993 DOS game deserves immortal hosting.</b></font>
+</p>
+
+<pre class="code">
+<font color="#cccc00">
+   Traditional Hosting          Swarm Hosting
+   =====================        =====================
+
+   Server goes down?            Network is global.
+   --> GAME OVER                --> Still running.
+
+   Forgot to pay AWS?           Postage stamps prepaid.
+   --> SITE DELETED             --> Still running.
+
+   Company shuts down?          No company to shut down.
+   --> SITE GONE                --> Still running.
+
+   Government blocks it?        Can't block math.
+   --> SITE CENSORED            --> Still running.
+
+   Year 2050?                   Chunks don't age.
+   --> LINK ROT                 --> STILL. RUNNING.
+</font>
+</pre>
+
+<p>
+<font color="#cccc00">BREAKIN was shareware.</font> It was meant to be copied freely, shared
+on BBSes, passed around on floppies. The Swarm is the ultimate
+expression of that philosophy: <font color="#ffffff">data that belongs to everyone
+and no one</font>.
+</p>
+
+<p>
+Joachim & Patrik wrote BREAKIN in Moenchengladbach in 1993 and
+distributed it through BBSes and shareware CDs. Over 30 years later,
+their creation lives on -- not on any single server, but as
+<font color="#ff8800">immortal chunks scattered across the planetary hive mind</font>.
+</p>
+
+<div class="honey-border">
+<pre class="ascii">
+<font color="#ff8800">
+      __         __         __         __
+     /  \  BZZ  /  \  BZZ  /  \  BZZ  /  \
+    | ** |~~~~~| ** |~~~~~| ** |~~~~~| ** |
+     \__/       \__/       \__/       \__/
+
+   "In the Swarm, your data is never alone."
+
+   Every chunk is stored by multiple nodes.
+   Every node earns BZZ for faithful storage.
+   The hive takes care of its own.
+</font>
+</pre>
+</div>
+
+<br>
+
+<div class="note-box">
+<b>THE STACK:</b><br>
+<font color="#ffffff">1993:</font> BREAKIN.EXE runs on DOS on bare metal<br>
+<font color="#ffffff">2026:</font> BREAKIN.EXE runs on DOSBox on WASM on a browser on the
+Swarm on Bee nodes on Gnosis Chain on Ethereum<br><br>
+<font color="#cccc00">It's turtles all the way down.</font>
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<div class="paddle-div"></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 6: FUND THE STAMP                                     -->
+<!-- ============================================================ -->
+
+<a name="fund"></a>
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<div class="section-bar-honey">
+  [ SECTION 6 ] RAISE THE ROOF! FUND THE STAMP
+</div>
+
+<blockquote>
+
+<pre class="code">
+<font color="#cccc00">
+   *        *        *        *        *
+       *        *        *        *
+    BREAKIN needs YOUR help to live forever!
+       *        *        *        *
+   *        *        *        *        *
+</font>
+</pre>
+
+<p>
+<font color="#ffffff" size="+1"><b>Keep BREAKIN alive until 2036 and beyond!</b></font>
+</p>
+
+<p>
+Right now our postage stamp is funded for <font color="#00cc00"><b>~2 years</b></font>.
+That's great -- but we're thinking bigger. We want this 1993
+shareware classic to be playable on the Swarm for at least
+<font color="#ffff00"><b>10 YEARS</b></font>. That's the dream. That's the mission.
+</p>
+
+<p>
+Every BZZ token donated to top up the stamp extends the life
+of every single chunk. More BZZ = more years = more bricks smashed
+by future generations who haven't even been born yet.
+</p>
+
+<br>
+
+<div class="honey-border">
+<font color="#ffffff" size="+1"><b>~~ THE BREAKIN FOREVER THERMOMETER ~~</b></font>
+<br><br>
+<pre class="ascii">
+<font color="#cccc00">  TARGET: 10 YEARS (2036)          CURRENT: ~2 YEARS (2028)</font>
+
+<font color="#ffffff">  2036 [10yr] |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#888888">  2034 [ 8yr] |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#888888">  2032 [ 6yr] |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#888888">  2030 [ 4yr] |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#888888">              |                                            |</font>
+<font color="#00cc00">  2028 [ 2yr] |████████████████████████████████████████████|</font>
+<font color="#00cc00">              |████████████████████████████████████████████|</font>
+<font color="#00cc00">              |████████████████████████████████████████████|</font>
+<font color="#00cc00">  2026 [NOW]  |████████████████████████████████████████████|</font>
+<font color="#ffffff">              +--------------------------------------------+</font>
+<font color="#cccc00">                ^^^^^^^^^^^^ 20% FUNDED ^^^^^^^^^^^^</font>
+</pre>
+<br>
+<font color="#ff8800" size="+1"><b>LET'S FILL THIS UP!*</b></font>
+</div>
+
+<br>
+
+<p>
+<font color="#cccc00"><b>How to contribute:</b></font>
+</p>
+
+<p>
+Top up the postage stamp batch by sending BZZ to the batch on
+Gnosis Chain. Every bit helps -- there's no minimum. Even a
+fraction of a BZZ pushes the thermometer up.
+</p>
+
+<div class="honey-border" style="padding: 16px;">
+<font color="#ffff00" size="+2"><b>&gt;&gt;&gt; <a href="https://beeport.eth.limo/?topup=bcd2168abae63c6b761e1f001664439ba6134d9aad7b6afcce7940a170ed1cb0" style="color: #ffff00;">CLICK HERE TO TOP UP THE STAMP</a> &lt;&lt;&lt;</b></font>
+<br><br>
+<font color="#cccccc" size="-1">Opens Beeport -- connect your wallet, choose an amount, done.<br>
+No command line required. Just vibes and BZZ.</font>
+</div>
+
+<br>
+
+<p><font color="#888888">For the command-line heads:</font></p>
+
+<pre class="code">
+<font color="#666699"># The stamp batch ID:</font>
+<font color="#ff8800">bcd2168abae63c6b761e1f001664439ba6134d9aad7b6afcce7940a170ed1cb0</font>
+
+<font color="#666699"># Top up via Bee API:</font>
+<font color="#888888">curl -X PATCH http://localhost:1633/stamps/topup/\</font>
+<font color="#888888">bcd2168abae63c6b761e1f001664439ba6134d9aad7b6afcce7940a170ed1cb0/\</font>
+<font color="#888888">&lt;amount-in-PLUR&gt;</font>
+
+<font color="#666699"># Or top up via Beeport web UI:</font>
+<font color="#00cccc">https://beeport.eth.limo/?topup=bcd2168abae63c6b761e1f001664439ba6134d9aad7b6afcce7940a170ed1cb0</font>
+</pre>
+
+<div class="note-box">
+<b>WHAT IS A PLUR?</b> The smallest unit of BZZ, like wei is to ETH.
+1 BZZ = 10^16 PLUR. When topping up a stamp you specify the amount
+in PLUR. Don't panic -- the Bee API handles the math.
+</div>
+
+<br>
+
+<pre class="code">
+<font color="#cccc00">
+        WHAT YOUR BZZ BUYS:
+        =============================================
+
+        A little BZZ ...... +months of hosting
+        Some BZZ .......... +1 year, bricks for all
+        Lotsa BZZ ......... +5 years, legendary status
+        Mass BZZ .......... 10yr target, IMMORTALITY
+
+        Every chunk stored is a vote for
+        keeping shareware culture alive.
+</font>
+</pre>
+
+<p>
+<font color="#cccc00">BREAKIN was shareware.</font> You were supposed to share it. You were
+supposed to pass it on. <font color="#ffffff">Funding the stamp is the 2026 version
+of copying BREAKIN.ZIP onto a floppy and handing it to your mate.</font>
+</p>
+
+<p>
+Joachim & Patrik asked for <font color="#ffff00">$15 or 20 DM</font> to register the game
+back in 1993. [sig note: if anyone would like to donate and doesn't want to engage with the German
+banking system (if that still works?) feel free to send coins to the address and on a best effort basis they will be passed on! 
+</p>
+
+<div class="honey-border">
+<pre class="ascii">
+<font color="#ff8800">
+      __                                          __
+     /  \   EVERY BZZ COUNTS! TELL YOUR FRIENDS  /  \
+    | ** |   TELL YOUR ENEMIES! TELL YOUR CAT!  | ** |
+     \__/                                        \__/
+        \   Fund the stamp. Raise the roof.     /
+         \   Keep BREAKIN alive forever.       /
+          \_____                         _____/
+                \   ~~ BZZ BZZ BZZ ~~   /
+                 \_____________________/
+</font>
+</pre>
+</div>
+
+</blockquote>
+
+</td></tr>
+</table>
+
+<br>
+<hr class="rainbow" width="600">
+<br>
+
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                        -->
+<!-- ============================================================ -->
+
+<table width="640" border="0" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+
+<a href="index.html" class="navbtn">&lt;&lt; PLAY GAME</a>
+<a href="how-it-works.html" class="navbtn">TECH DOCS</a>
+
+<br><br>
+
+<!-- Visitor counter -->
+<font color="#888888" size="-1">Chunks served: </font>
+<span class="counter">004096</span>
+<font color="#888888" size="-1"> (and counting)</font>
+
+<br><br>
+
+<!-- 88x31 badges -->
+<span class="badge" style="color: #886600;">HOSTED ON<br>ETHSWARM.ORG</span>
+<span class="badge" style="color: #006600;">CENSORSHIP<br>RESISTANT</span>
+<span class="badge" style="color: #880000;">POWERED BY<br>BZZ TOKEN</span>
+<span class="badge">CHUNKS ALL<br>THE WAY DOWN</span>
+
+<br><br>
+
+<!-- Webring -->
+<div class="webring" style="width: 420px;">
+<font color="#cccc00" size="-1"><b>*** DECENTRALIZED WEB RING ***</b></font><br>
+<font size="-2">
+[ <a href="#">&lt;&lt; PREV</a> |
+  <a href="https://ethswarm.org">SWARM HOME</a> |
+  <a href="https://docs.ethswarm.org">SWARM DOCS</a> |
+  <a href="#">NEXT &gt;&gt;</a> ]
+</font>
+</div>
+
+<br><br>
+
+<div class="honey-border" style="margin-bottom: 16px;">
+<font color="#cccc00" size="-1"><b>POSTAGE STAMP</b></font><br>
+<font color="#ff8800"><b>STAMP: bcd2168abae63c6b761e1f001664439ba6134d9aad7b6afcce7940a170ed1cb0</b></font>
+</div>
+
+<font color="#666666" size="-2">
+(c) 1993-2026 * Original game by Xray Productions
+(Joachim Herrmann &amp; Patrik Schnitzler)
+<br>
+Hosted on Ethereum Swarm * Powered by Bee nodes * BZZ protocol
+<br>
+Everything except some of the questionable ASCII art produced using Anthropic's phenomenal LLM's. Thanks, love and awe to Claude and Anthropic! Stay beautiful : )
+<br>
+*No I didn't wire the thermometer up yet, would be fun though. Fund the stamp!! Stamp 2050! :)
+<br>
+<a href="https://ethswarm.org">ethswarm.org</a> *
+<a href="https://docs.ethswarm.org">docs.ethswarm.org</a>
+<br><br>
+<font color="#cccc00">###</font>
+<font color="#ff8800">###</font>
+<font color="#cccc00">###</font>
+<font color="#ff8800">###</font>
+<font color="#cccc00">###</font>
+</font>
+
+<br><br>
+
+</td></tr>
+</table>
+
+<div class="construction"></div>
+
+</center>
+
+</body>
+</html>
