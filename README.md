@@ -88,16 +88,26 @@ area to capture your mouse. That's it. You're in.
 
 ```
 breakanoid/
-├── index.html ............. Main page + game runner
-├── how-it-works.html ...... Deep-dive technical breakdown
-├── breakanoid.jsdos ....... Bundled DOS filesystem image
-├── breakin-files/ ......... Raw game assets (EXE, VOC, PIC, etc.)
-├── assets/
-│   ├── js-dos.js .......... js-dos emulator runtime
-│   ├── js-dos.css ......... js-dos styles
-│   ├── emulators/ ......... DOSBox WASM binaries
-│   └── fonts/ ............. DOS bitmap font (VT323, PressStart2P)
-└── register.html .......... Shareware registration info
+├── build/
+│   ├── index.html ............. Main page + game runner
+│   ├── how-it-works.html ...... Deep-dive technical breakdown
+│   ├── swarm.html ............. Swarm mode
+│   ├── register.html .......... Shareware registration info
+│   ├── breakanoid.jsdos ....... Bundled DOS filesystem image
+│   └── assets/
+│       ├── js-dos.js .......... js-dos emulator runtime
+│       ├── js-dos.css ......... js-dos styles
+│       ├── dos-font.css ....... DOS font stylesheet
+│       ├── fonts.css .......... Font-face declarations
+│       ├── PressStart2P.ttf ... Pixel font
+│       ├── VT323.ttf .......... DOS terminal font
+│       └── emulators/ ......... DOSBox WASM binaries
+├── src/
+│   ├── breakin-files/ ......... Raw game assets (EXE, VOC, PIC, etc.)
+│   ├── breakin.zip ............ Original shareware archive
+│   └── dosbox.conf ............ DOSBox configuration
+├── justfile ................... Build commands
+└── README.md
 ```
 
 ## GREETZ
@@ -105,7 +115,7 @@ breakanoid/
 ```
  ┌──────────────────────────────────────────────────────────────┐
  │                                                              │
- │   G R E E T Z  go out to:                                   │
+ │   G R E E T Z  go out to:                                    │
  │                                                              │
  │   Joachim & Patrik ...... for the original masterpiece       │
  │   js-dos crew ........... for DOSBox in the browser          │
@@ -121,7 +131,7 @@ breakanoid/
 
 ```
  BREAKIN.ETH ........... https://etherscan.io/name-lookup-search?id=breakin.eth
- LIVE DEMO ............. https://breakin.eth (via ENS)
+ LIVE DEMO ............. https://breakin.eth.limo (via ENS)
  SOURCE ................ https://github.com/significance/breakin
 ```
 

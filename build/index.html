@@ -616,6 +616,7 @@ Authors: Joachim Herrmann &amp; Patrik Schnitzler
       }
       // Show shareware screen when emulator exits
       if (event === "wc-exit" || event === "ws-exit") {
+        console.log("exited", event)
         showExitScreen();
       }
     }
