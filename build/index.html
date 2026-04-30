@@ -24,6 +24,20 @@ a:link { color: #00cccc; }
   display: flex; flex-direction: column;
   align-items: center;
   background-color: #000020;
+  position: relative;
+}
+
+#starfield {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.cabinet > *:not(#starfield) {
+  position: relative;
+  z-index: 1;
 }
 
 /* Header — slim navy bar */
@@ -31,30 +45,26 @@ a:link { color: #00cccc; }
   width: 100%;
   background-color: #000080;
   text-align: center;
-  padding: 2px 8px;
+  padding: 8px 12px 4px;
   flex-shrink: 0;
   border-bottom: 2px solid #000040;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
-.header pre.ascii {
-  font-family: DOS, "Courier New", monospace;
-  font-size: 7px;
-  line-height: 1.0;
-  color: #00cccc;
-  margin: 0;
+#logo {
+  image-rendering: pixelated;
+  height: 38px;
   margin-right: 8px;
-  white-space: pre;
 }
 
 .header span {
-  font-size: 11px;
-  color: #888888;
-  margin-right: 8px;
+  font-size: 9px;
+  color: #666688;
+  margin-right: 4px;
 }
 
 /* Monitor — sunken bevel, fills the viewport */
@@ -184,40 +194,51 @@ a:link { color: #00cccc; }
   color: #666666;
 }
 
-/* Beveled buttons */
+/* Beveled buttons — BREAKIN power-up style */
 .btn {
   display: inline-block;
   font-family: DOS, "Courier New", monospace;
-  font-size: 11px;
+  font-size: 9px;
   font-weight: bold;
-  padding: 2px 8px;
-  margin: 0 2px;
-  color: #cccccc;
-  background-color: #444466;
-  border-top: 2px solid #666688;
-  border-left: 2px solid #666688;
-  border-bottom: 2px solid #222244;
-  border-right: 2px solid #222244;
+  padding: 2px 6px;
+  margin: 0 1px;
+  color: #ffffff;
+  background-color: #000088;
+  border: 2px solid;
+  border-color: #000044 #4444cc #4444cc #000044;
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;
   vertical-align: middle;
   line-height: 1.2;
-  height: 24px;
+  height: 20px;
+  text-shadow: 1px 1px 0 #000000;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,0.25);
+  transition: none;
+  image-rendering: pixelated;
 }
 
 button.btn {
-  /* Reset button-specific styling to match <a> */
   -webkit-appearance: none;
   appearance: none;
 }
 
-.btn:active {
-  border-top-color: #222244;
-  border-left-color: #222244;
-  border-bottom-color: #666688;
-  border-right-color: #666688;
+.btn:hover {
+  color: #ffff00;
+  background-color: #0000aa;
+  border-color: #000066 #6666ff #6666ff #000066;
 }
+
+.btn:active {
+  border-color: #4444cc #000044 #000044 #4444cc;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.15);
+  padding: 3px 5px 1px 7px;
+}
+
+.btn-nag { background-color: #884400; border-color: #cc8844 #442200 #442200 #cc8844; box-shadow: inset 1px 1px 0 rgba(255,255,255,0.15); }
+.btn-nag:hover { background-color: #aa5500; color: #ffff00; border-color: #dd9955 #553300 #553300 #dd9955; }
+.btn-nag:active { border-color: #442200 #cc8844 #cc8844 #442200; box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3); }
+
 
 /* Doc overlay — Win 3.1 dialog */
 .doc-overlay {
@@ -428,25 +449,38 @@ button.btn {
 .eg { color: #00cc00; }
 .eo { color: #ff8800; }
 .ec { color: #00cccc; }
+
+/* Mobile: shrink buttons, hide ASCII banner */
+@media (max-width: 600px) {
+  #logo { display: none; }
+  .header span { display: none; }
+  .header { padding: 2px 4px; gap: 4px; }
+  .btn { font-size: 9px; padding: 1px 5px; height: 20px; }
+  .bottom { font-size: 9px; flex-wrap: wrap; justify-content: center; }
+}
+
+/* iOS fullscreen fallback (no Fullscreen API support) */
+body.ios-fullscreen .header,
+body.ios-fullscreen .bottom { display: none; }
+body.ios-fullscreen .monitor { border: none; }
+body.ios-fullscreen .screen { border: none; }
 </style>
 </head>
 
 <body>
 
 <div class="cabinet">
+  <canvas id="starfield"></canvas>
 
   <div class="header">
-<pre class="ascii"> ____  ____  ____  ____  _  _ ____  _  _
-(  _ \(  _ \(  __)(  _ \/ )( \(_  _)( \( )
- ) _ ( )   / ) _)  )   /) __ ( _)(_  )  (
-(____/(_)\_)(____)(___\_)\_)(_/(____)(_)\_)</pre>
+<canvas id="logo"></canvas>
     <span>XRAY '93</span>
     <button class="btn" onclick="goFullscreen()">FULL [F]</button>
     <button class="btn" onclick="toggleDocs()">DOCS [H]</button>
-    <button class="btn" onclick="window.open('how-it-works.html','_blank')">HOW IT WORKS</button>
-    <button class="btn" onclick="window.open('swarm.html','_blank')">SWARM</button>
-    <button class="btn" id="btn-sound" onclick="toggleSound()">SND: ON</button>
-    <button class="btn" onclick="showExitScreen()">NAG</button>
+    <button class="btn" onclick="window.open('how-it-works.html','_blank')">TECH [T]</button>
+    <button class="btn" onclick="window.open('swarm.html','_blank')">SWARM [W]</button>
+    <button class="btn" id="btn-sound" onclick="toggleSound()">SND [S]</button>
+    <button class="btn btn-nag" onclick="showExitScreen()">NAG [N]</button>
   </div>
 
   <div class="monitor">
@@ -627,8 +661,10 @@ Authors: Joachim Herrmann &amp; Patrik Schnitzler
 
   function goFullscreen() {
     const el = document.querySelector(".screen");
-    if (el.requestFullscreen) el.requestFullscreen();
-    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    if (el.requestFullscreen) { el.requestFullscreen(); return; }
+    if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); return; }
+    // iOS fallback: CSS-based fake fullscreen
+    document.body.classList.toggle("ios-fullscreen");
   }
 
   function toggleDocs() {
@@ -638,8 +674,8 @@ Authors: Joachim Herrmann &amp; Patrik Schnitzler
   function toggleSound() {
     const btn = document.getElementById("btn-sound");
     if (dosCI) {
-      if (muted) { dosCI.unmute(); muted = false; btn.textContent = "SND: ON"; }
-      else       { dosCI.mute();   muted = true;  btn.textContent = "SND: OFF"; }
+      if (muted) { dosCI.unmute(); muted = false; btn.textContent = "SND [S]"; }
+      else       { dosCI.mute();   muted = true;  btn.textContent = "MUTE [S]"; }
     }
   }
 
@@ -653,13 +689,403 @@ Authors: Joachim Herrmann &amp; Patrik Schnitzler
         toggleDocs();
       } else if (document.fullscreenElement) {
         document.exitFullscreen();
+      } else if (document.body.classList.contains("ios-fullscreen")) {
+        document.body.classList.remove("ios-fullscreen");
       }
       return;
     }
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
     if (e.key === "f" || e.key === "F") { e.preventDefault(); goFullscreen(); }
     if (e.key === "h" || e.key === "H") { e.preventDefault(); toggleDocs(); }
+    if (e.key === "t" || e.key === "T") { e.preventDefault(); window.open('how-it-works.html','_blank'); }
+    if (e.key === "w" || e.key === "W") { e.preventDefault(); window.open('swarm.html','_blank'); }
+    if (e.key === "s" || e.key === "S") { e.preventDefault(); toggleSound(); }
+    if (e.key === "n" || e.key === "N") { e.preventDefault(); showExitScreen(); }
   }, true);  // true = capture phase, runs before js-dos
+
+  // ── Reusable pixel font renderer ──
+  // Renders text to a canvas using BREAKIN's metallic gradient style.
+  // Usage: pixelText(canvas, "BREAKIN", { scale: 3, gap: 1, gradient: [...] })
+  const PIXEL_FONT = {
+    A: [
+      '01110',
+      '11011',
+      '11011',
+      '11111',
+      '11011',
+      '11011',
+      '11011',
+    ],
+    B: [
+      '11110',
+      '11011',
+      '11011',
+      '11110',
+      '11011',
+      '11011',
+      '11110',
+    ],
+    C: [
+      '01111',
+      '11000',
+      '11000',
+      '11000',
+      '11000',
+      '11000',
+      '01111',
+    ],
+    D: [
+      '11110',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '11110',
+    ],
+    E: [
+      '11111',
+      '11000',
+      '11000',
+      '11110',
+      '11000',
+      '11000',
+      '11111',
+    ],
+    F: [
+      '11111',
+      '11000',
+      '11000',
+      '11110',
+      '11000',
+      '11000',
+      '11000',
+    ],
+    G: [
+      '01111',
+      '11000',
+      '11000',
+      '11011',
+      '11011',
+      '11011',
+      '01111',
+    ],
+    H: [
+      '11011',
+      '11011',
+      '11011',
+      '11111',
+      '11011',
+      '11011',
+      '11011',
+    ],
+    I: [
+      '1111',
+      '0110',
+      '0110',
+      '0110',
+      '0110',
+      '0110',
+      '1111',
+    ],
+    J: [
+      '01111',
+      '00011',
+      '00011',
+      '00011',
+      '00011',
+      '11011',
+      '01110',
+    ],
+    K: [
+      '11011',
+      '11110',
+      '11100',
+      '11100',
+      '11110',
+      '11011',
+      '11011',
+    ],
+    L: [
+      '11000',
+      '11000',
+      '11000',
+      '11000',
+      '11000',
+      '11000',
+      '11111',
+    ],
+    M: [
+      '11011',
+      '11111',
+      '11111',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+    ],
+    N: [
+      '11011',
+      '11111',
+      '11111',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+    ],
+    O: [
+      '01110',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '01110',
+    ],
+    P: [
+      '11110',
+      '11011',
+      '11011',
+      '11110',
+      '11000',
+      '11000',
+      '11000',
+    ],
+    R: [
+      '11110',
+      '11011',
+      '11011',
+      '11110',
+      '11110',
+      '11011',
+      '11011',
+    ],
+    S: [
+      '01111',
+      '11000',
+      '11000',
+      '01110',
+      '00011',
+      '00011',
+      '11110',
+    ],
+    T: [
+      '11111',
+      '00110',
+      '00110',
+      '00110',
+      '00110',
+      '00110',
+      '00110',
+    ],
+    U: [
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '01110',
+    ],
+    V: [
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '01110',
+      '00100',
+    ],
+    W: [
+      '11011',
+      '11011',
+      '11011',
+      '11011',
+      '11111',
+      '11111',
+      '11011',
+    ],
+    X: [
+      '11011',
+      '11011',
+      '01110',
+      '00100',
+      '01110',
+      '11011',
+      '11011',
+    ],
+    Y: [
+      '11011',
+      '11011',
+      '01110',
+      '00100',
+      '00100',
+      '00100',
+      '00100',
+    ],
+    Z: [
+      '11111',
+      '00011',
+      '00110',
+      '01100',
+      '11000',
+      '11000',
+      '11111',
+    ],
+    ' ': [
+      '000',
+      '000',
+      '000',
+      '000',
+      '000',
+      '000',
+      '000',
+    ],
+  };
+
+  // Default gradient: BREAKIN's metallic gold (top → bottom, per row)
+  // Stored as HSL so we can shift hue per-pixel for the shimmer
+  const GOLD_GRADIENT_HSL = [
+    [48, 80, 57],
+    [48, 76, 53],
+    [48, 72, 47],
+    [48, 68, 40],
+    [45, 65, 35],
+    [43, 60, 30],
+    [42, 55, 26],
+  ];
+
+  // Static render (no animation) — still usable for other canvases
+  function pixelText(canvas, text, opts = {}) {
+    const scale = opts.scale || 3;
+    const gap = opts.gap ?? 1;
+    const shadow = opts.shadow ?? '#332200';
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+
+    const chars = text.toUpperCase().split('').map(c => PIXEL_FONT[c] || PIXEL_FONT[' ']);
+    const rows = 7;
+    const totalW = chars.reduce((sum, ch) => sum + ch[0].length + gap, -gap);
+
+    canvas.width = (totalW + (shadow ? 1 : 0)) * scale;
+    canvas.height = (rows + (shadow ? 1 : 0)) * scale;
+    ctx.imageSmoothingEnabled = false;
+
+    return { chars, rows, totalW, scale, gap, shadow, ctx, canvas };
+  }
+
+  // Animated shimmer render — double-curve hue drift per pixel
+  function pixelTextShimmer(canvas, text, opts = {}) {
+    const info = pixelText(canvas, text, opts);
+    const { chars, rows, scale, gap, shadow, ctx } = info;
+
+    // Build pixel list with unique phase offsets
+    const pixels = [];
+    let x = 0;
+    for (let ci = 0; ci < chars.length; ci++) {
+      const ch = chars[ci];
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < ch[row].length; col++) {
+          if (ch[row][col] === '1') {
+            // Phase from spatial position + golden ratio offset per char
+            const phase1 = (x + col) * 0.7 + row * 1.3 + ci * 2.618;
+            const phase2 = (x + col) * 1.1 + row * 0.9 + ci * 1.414;
+            pixels.push({ px: x + col, py: row, row, phase1, phase2 });
+          }
+        }
+      }
+      x += ch[0].length + gap;
+    }
+
+    function frame(t) {
+      const sec = t * 0.001;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Shadow pass
+      if (shadow) {
+        ctx.fillStyle = shadow;
+        for (const p of pixels) {
+          ctx.fillRect((p.px + 1) * scale, (p.py + 1) * scale, scale, scale);
+        }
+      }
+
+      // Shimmer pass — two sine waves with irrational ratios
+      // TODO: the subtle version used drift * baseH * 0.1 for hue and no L shift.
+      // Those phase numbers (0.83/1.37, 0.7/1.3/2.618, 1.1/0.9/1.414) felt right
+      // but the effect was invisible — come back and try dialling down once we can
+      // confirm the animation is actually running on the user's display.
+      for (const p of pixels) {
+        const [baseH, baseS, baseL] = GOLD_GRADIENT_HSL[p.row];
+        const wave1 = Math.sin(sec * 0.83 + p.phase1);
+        const wave2 = Math.sin(sec * 1.37 + p.phase2);
+        const drift = (wave1 * 0.6 + wave2 * 0.4); // combined -1..1
+        const h = baseH + drift * 15;               // ±15 degrees hue
+        const l = baseL + drift * 8;                // ±8% lightness
+        ctx.fillStyle = `hsl(${h}, ${baseS}%, ${l}%)`;
+        ctx.fillRect(p.px * scale, p.py * scale, scale, scale);
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  // Render the header logo with shimmer
+  pixelTextShimmer(document.getElementById('logo'), 'BREAKIN');
+</script>
+
+<script>
+  // Parallax star field — sharp pixels only, no antialiasing
+  (function() {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+
+    const LAYERS = [
+      { count: 60, speed: 0.15, colors: ['#333344', '#222233'] },
+      { count: 40, speed: 0.4,  colors: ['#555577', '#444466'] },
+      { count: 20, speed: 0.9,  colors: ['#8888aa', '#7777cc', '#aaaaff'] },
+    ];
+
+    let stars = [];
+    let w, h;
+
+    function resize() {
+      w = canvas.width = canvas.offsetWidth;
+      h = canvas.height = canvas.offsetHeight;
+      seed();
+    }
+
+    function seed() {
+      stars = [];
+      for (const layer of LAYERS) {
+        for (let i = 0; i < layer.count; i++) {
+          stars.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            speed: layer.speed,
+            color: layer.colors[Math.floor(Math.random() * layer.colors.length)],
+          });
+        }
+      }
+    }
+
+    function frame() {
+      ctx.clearRect(0, 0, w, h);
+      for (const s of stars) {
+        s.y += s.speed;
+        if (s.y > h) { s.y = 0; s.x = Math.random() * w; }
+        ctx.fillStyle = s.color;
+        ctx.fillRect(Math.floor(s.x), Math.floor(s.y), 1, 1);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    frame();
+  })();
 </script>
 
 </body>

@@ -20,3 +20,7 @@ serve:
 dev:
     open http://localhost:8080
     cd build && python3 -m http.server 8080 --bind 127.0.0.1
+
+# Run smoke tests (requires server running on :8080)
+test:
+    node --test tests/smoke.test.mjs
